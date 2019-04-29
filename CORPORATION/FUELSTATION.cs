@@ -132,7 +132,10 @@ namespace CORPORATION
         {
              decimal fuelReserve = FuelReserve();
 
-            if (fuelReserve <= FuelReserveLowerLimit)
+           
+
+
+            if (fuelReserve <= FuelReserveLowerLimit  )
             {
 
                await Task.Run(()=>  FuelPurchase());
@@ -193,7 +196,12 @@ namespace CORPORATION
             decimal amountToPurchase = FuelReserveUpperLimit - fr;
 
             var cdc = new CorporationDataContext();
+            BANK bank = new BANK();
 
+            if (bank.balance>= amountToPurchase)
+            {
+
+           
 
             int lastItemID;
             int nextItemID;
@@ -233,6 +241,7 @@ namespace CORPORATION
             catch (Exception e)
             {
 
+            }
             }
 
         }
