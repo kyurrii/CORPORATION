@@ -37,23 +37,23 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -160,50 +160,14 @@
             this.panel1.Size = new System.Drawing.Size(447, 232);
             this.panel1.TabIndex = 8;
             // 
-            // label3
+            // label9
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(367, 55);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 20);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "label3";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 87);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(227, 20);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Open Orders Total Value, UAH";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(367, 87);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 20);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "label5";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 124);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(167, 20);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Orders in Process Q-ty";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(367, 124);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 20);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "label7";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(367, 164);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(51, 20);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "label9";
             // 
             // label8
             // 
@@ -214,14 +178,50 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "Orders on Stock Q-ty";
             // 
-            // label9
+            // label7
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(367, 164);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(51, 20);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "label9";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(367, 124);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 20);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "label7";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(24, 124);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(167, 20);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Orders in Process Q-ty";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(367, 87);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 20);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "label5";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(24, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(227, 20);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Open Orders Total Value, UAH";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(367, 55);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(24, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "---";
             // 
             // panel3
             // 
@@ -239,68 +239,14 @@
             this.panel3.Size = new System.Drawing.Size(447, 183);
             this.panel3.TabIndex = 10;
             // 
-            // label12
+            // label25
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(24, 18);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(354, 20);
-            this.label12.TabIndex = 17;
-            this.label12.Text = "TANK FUEL STATION OPERATIONS MONITOR";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(24, 52);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(155, 20);
-            this.label18.TabIndex = 23;
-            this.label18.Text = "Vehicles waiting Q-ty";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(358, 52);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(60, 20);
-            this.label19.TabIndex = 24;
-            this.label19.Text = "label19";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(24, 85);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(202, 20);
-            this.label20.TabIndex = 25;
-            this.label20.Text = "Vehicles being tanked, Q-ty";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(358, 85);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(60, 20);
-            this.label21.TabIndex = 26;
-            this.label21.Text = "label21";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(25, 122);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(247, 20);
-            this.label22.TabIndex = 27;
-            this.label22.Text = "Fuel ordered at the Moment, liters";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(358, 122);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(60, 20);
-            this.label23.TabIndex = 28;
-            this.label23.Text = "label23";
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(358, 154);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(60, 20);
+            this.label25.TabIndex = 30;
+            this.label25.Text = "label25";
             // 
             // label24
             // 
@@ -311,14 +257,68 @@
             this.label24.TabIndex = 29;
             this.label24.Text = "Fuel Reserve, liters";
             // 
-            // label25
+            // label23
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(358, 154);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(60, 20);
-            this.label25.TabIndex = 30;
-            this.label25.Text = "label25";
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(358, 122);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(60, 20);
+            this.label23.TabIndex = 28;
+            this.label23.Text = "label23";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(25, 122);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(247, 20);
+            this.label22.TabIndex = 27;
+            this.label22.Text = "Fuel ordered at the Moment, liters";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(358, 85);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(60, 20);
+            this.label21.TabIndex = 26;
+            this.label21.Text = "label21";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(24, 85);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(202, 20);
+            this.label20.TabIndex = 25;
+            this.label20.Text = "Vehicles being tanked, Q-ty";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(358, 52);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(60, 20);
+            this.label19.TabIndex = 24;
+            this.label19.Text = "label19";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(24, 52);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(155, 20);
+            this.label18.TabIndex = 23;
+            this.label18.Text = "Vehicles waiting Q-ty";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(24, 18);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(354, 20);
+            this.label12.TabIndex = 17;
+            this.label12.Text = "TANK FUEL STATION OPERATIONS MONITOR";
             // 
             // label15
             // 
