@@ -1690,8 +1690,6 @@ namespace CORPORATION
 		
 		private int _TruckID;
 		
-		private System.Nullable<decimal> _TransInvoiceValue;
-		
 		private System.Nullable<int> _PaymentTerm;
 		
 		private string _Status;
@@ -1710,8 +1708,6 @@ namespace CORPORATION
     partial void OnTransInvoiceIDChanged();
     partial void OnTruckIDChanging(int value);
     partial void OnTruckIDChanged();
-    partial void OnTransInvoiceValueChanging(System.Nullable<decimal> value);
-    partial void OnTransInvoiceValueChanged();
     partial void OnPaymentTermChanging(System.Nullable<int> value);
     partial void OnPaymentTermChanged();
     partial void OnStatusChanging(string value);
@@ -1767,26 +1763,6 @@ namespace CORPORATION
 					this._TruckID = value;
 					this.SendPropertyChanged("TruckID");
 					this.OnTruckIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransInvoiceValue", DbType="Decimal(18,0)")]
-		public System.Nullable<decimal> TransInvoiceValue
-		{
-			get
-			{
-				return this._TransInvoiceValue;
-			}
-			set
-			{
-				if ((this._TransInvoiceValue != value))
-				{
-					this.OnTransInvoiceValueChanging(value);
-					this.SendPropertyChanging();
-					this._TransInvoiceValue = value;
-					this.SendPropertyChanged("TransInvoiceValue");
-					this.OnTransInvoiceValueChanged();
 				}
 			}
 		}
@@ -2317,6 +2293,8 @@ namespace CORPORATION
 		
 		private System.Nullable<System.DateTime> _Date;
 		
+		private System.Nullable<decimal> _OrderValue;
+		
 		private EntitySet<TruckTrip> _TruckTrips;
 		
     #region Extensibility Method Definitions
@@ -2331,6 +2309,8 @@ namespace CORPORATION
     partial void OnStatusChanged();
     partial void OnDateChanging(System.Nullable<System.DateTime> value);
     partial void OnDateChanged();
+    partial void OnOrderValueChanging(System.Nullable<decimal> value);
+    partial void OnOrderValueChanged();
     #endregion
 		
 		public TransOrder()
@@ -2415,6 +2395,26 @@ namespace CORPORATION
 					this._Date = value;
 					this.SendPropertyChanged("Date");
 					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderValue", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> OrderValue
+		{
+			get
+			{
+				return this._OrderValue;
+			}
+			set
+			{
+				if ((this._OrderValue != value))
+				{
+					this.OnOrderValueChanging(value);
+					this.SendPropertyChanging();
+					this._OrderValue = value;
+					this.SendPropertyChanged("OrderValue");
+					this.OnOrderValueChanged();
 				}
 			}
 		}

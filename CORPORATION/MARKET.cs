@@ -111,5 +111,51 @@ namespace CORPORATION
             catch { }
         }
 
+        public void PlaceTransOrder(object source, ElapsedEventArgs e)
+        {
+            int lastItemID;
+            int nextItemID;
+            int itemsCount = 0;
+
+            var cdc = new CorporationDataContext();
+
+
+            itemsCount = cdc.TransOrders.Count();
+
+            if (itemsCount == 0)
+            {
+                nextItemID = 880001;
+            }
+            else
+            {
+                lastItemID = cdc.TransOrders.OrderByDescending(s => s.TransOrderID).Select(s => s.TransOrderID).First();
+                nextItemID = lastItemID + 1;
+            }
+
+
+            Random random = new Random();
+            int orderValue = random.Next(30000);
+            int distance = random.Next(10000);
+
+
+            try
+            {
+                cdc.TransOrders.InsertOnSubmit(
+
+                new TransOrder
+                {
+                    TransOrderID = nextItemID,
+                    OrderValue = orderValue,
+                    Status = "open",
+                    Date = DateTime.Now,
+                    Distance = distance
+                }
+                         );
+                cdc.SubmitChanges();
+
+            }
+            catch { }
+        }
+
     }
 }

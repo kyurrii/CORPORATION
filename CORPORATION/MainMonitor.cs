@@ -59,6 +59,7 @@ namespace CORPORATION
 
             marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
             marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
+            marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
 
             mainMonitorTimer.Elapsed += new ElapsedEventHandler(MainMonitorRefresh);
             mainMonitorTimer.Elapsed += new ElapsedEventHandler(bank.checkInvoices);
@@ -70,6 +71,8 @@ namespace CORPORATION
             fuelstationTimer.Elapsed += new ElapsedEventHandler(fuelstation.CheckTankOrders);
 
             carrierTimer.Elapsed += new ElapsedEventHandler(carrier.CheckTrucks);
+            carrierTimer.Elapsed += new ElapsedEventHandler(carrier.NextTransOrder);
+            
 
             marketTimer.Start();
             plantTimer.Start();
@@ -214,7 +217,10 @@ namespace CORPORATION
                 label23.Text = tfstation.momentalTankFuelAmount().ToString();
                 label25.Text = tfstation.fuelReserve.ToString();
                 label32.Text = carrier.TrucksCount().ToString();
-                
+                label38.Text = carrier.OpenTransOrdersQty().ToString();
+                label34.Text = carrier.InProcessTransOrdersQty().ToString();
+
+
 
             };
 
