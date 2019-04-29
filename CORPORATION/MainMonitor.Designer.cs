@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -62,46 +60,43 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(590, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(580, 308);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(609, 197);
+            this.dataGridView1.Size = new System.Drawing.Size(609, 142);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(590, 262);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 28;
-            this.dataGridView2.Size = new System.Drawing.Size(306, 169);
-            this.dataGridView2.TabIndex = 1;
-            // 
-            // dataGridView3
-            // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(902, 262);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowTemplate.Height = 28;
-            this.dataGridView3.Size = new System.Drawing.Size(286, 169);
-            this.dataGridView3.TabIndex = 2;
             // 
             // dataGridView4
             // 
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(590, 459);
+            this.dataGridView4.Location = new System.Drawing.Point(580, 459);
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.RowTemplate.Height = 28;
             this.dataGridView4.Size = new System.Drawing.Size(598, 197);
@@ -111,20 +106,21 @@
             // 
             this.button1.Location = new System.Drawing.Point(12, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 36);
+            this.button1.Size = new System.Drawing.Size(200, 36);
             this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
+            this.button1.Text = "ACTIVITIES START";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(167, 13);
+            this.button2.Location = new System.Drawing.Point(271, 12);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 35);
+            this.button2.Size = new System.Drawing.Size(188, 35);
             this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
+            this.button2.Text = "ACTIVITIES STOP";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // label1
             // 
@@ -146,6 +142,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -225,6 +223,8 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label14);
+            this.panel3.Controls.Add(this.label13);
             this.panel3.Controls.Add(this.label25);
             this.panel3.Controls.Add(this.label24);
             this.panel3.Controls.Add(this.label23);
@@ -234,9 +234,9 @@
             this.panel3.Controls.Add(this.label19);
             this.panel3.Controls.Add(this.label18);
             this.panel3.Controls.Add(this.label12);
-            this.panel3.Location = new System.Drawing.Point(12, 473);
+            this.panel3.Location = new System.Drawing.Point(12, 449);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(447, 183);
+            this.panel3.Size = new System.Drawing.Size(447, 215);
             this.panel3.TabIndex = 10;
             // 
             // label25
@@ -392,31 +392,181 @@
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.label16);
             this.panel2.Controls.Add(this.label15);
-            this.panel2.Location = new System.Drawing.Point(12, 316);
+            this.panel2.Location = new System.Drawing.Point(12, 292);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(447, 151);
             this.panel2.TabIndex = 9;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(24, 199);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(175, 20);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Operational Profit, UAH";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(367, 199);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(60, 20);
+            this.label11.TabIndex = 16;
+            this.label11.Text = "label11";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(25, 187);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(175, 20);
+            this.label13.TabIndex = 31;
+            this.label13.Text = "Operational Profit, UAH";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(358, 187);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(60, 20);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "label14";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.label30);
+            this.panel4.Controls.Add(this.label31);
+            this.panel4.Controls.Add(this.label32);
+            this.panel4.Controls.Add(this.label33);
+            this.panel4.Controls.Add(this.label34);
+            this.panel4.Controls.Add(this.label35);
+            this.panel4.Controls.Add(this.label36);
+            this.panel4.Controls.Add(this.label37);
+            this.panel4.Controls.Add(this.label38);
+            this.panel4.Controls.Add(this.label39);
+            this.panel4.Controls.Add(this.label40);
+            this.panel4.Location = new System.Drawing.Point(580, 41);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(447, 232);
+            this.panel4.TabIndex = 11;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(367, 199);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(60, 20);
+            this.label30.TabIndex = 16;
+            this.label30.Text = "label30";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(24, 199);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(175, 20);
+            this.label31.TabIndex = 15;
+            this.label31.Text = "Operational Profit, UAH";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(367, 164);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(60, 20);
+            this.label32.TabIndex = 14;
+            this.label32.Text = "label32";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(25, 164);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(89, 20);
+            this.label33.TabIndex = 13;
+            this.label33.Text = "Trucks Q-ty";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(367, 124);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(60, 20);
+            this.label34.TabIndex = 12;
+            this.label34.Text = "label34";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(24, 124);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(167, 20);
+            this.label35.TabIndex = 11;
+            this.label35.Text = "Orders in Process Q-ty";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(367, 87);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(60, 20);
+            this.label36.TabIndex = 10;
+            this.label36.Text = "label36";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(24, 87);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(227, 20);
+            this.label37.TabIndex = 9;
+            this.label37.Text = "Open Orders Total Value, UAH";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(367, 55);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(24, 20);
+            this.label38.TabIndex = 8;
+            this.label38.Text = "---";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(25, 10);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(419, 20);
+            this.label39.TabIndex = 6;
+            this.label39.Text = "TRANSPORTATION COMPANY PROCESSES MONITOR";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(25, 55);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(133, 20);
+            this.label40.TabIndex = 7;
+            this.label40.Text = "Open Orders Q-ty";
             // 
             // MainMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1211, 668);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView4);
-            this.Controls.Add(this.dataGridView3);
-            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Name = "MainMonitor";
             this.Text = "MainMonitor";
             this.Load += new System.EventHandler(this.MainMonitor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -424,6 +574,8 @@
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -431,8 +583,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
@@ -464,5 +614,21 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label40;
     }
 }

@@ -25,7 +25,7 @@ namespace CORPORATION
         System.Timers.Timer plantTimer = new System.Timers.Timer();
         System.Timers.Timer mainMonitorTimer = new System.Timers.Timer();
         System.Timers.Timer fuelstationTimer = new System.Timers.Timer();
-
+        System.Timers.Timer carrierTimer = new System.Timers.Timer();
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -35,6 +35,7 @@ namespace CORPORATION
             PLANT plant = new PLANT();
             BANK bank = new BANK();
             FUELSTATION fuelstation = new FUELSTATION();
+            CARRIER carrier = new CARRIER();
 
 
             /* Random random = new Random();
@@ -47,12 +48,14 @@ namespace CORPORATION
             int plantPeriod = 3000;
             int monitorPeriod = 2000;
             int fuelstPeriod = 3000;
+            int carrierPeriod = 3000;
 
 
             marketTimer.Interval = marPeriod;
             plantTimer.Interval = plantPeriod;
             mainMonitorTimer.Interval = monitorPeriod;
             fuelstationTimer.Interval = fuelstPeriod;
+            carrierTimer.Interval = carrierPeriod;
 
             marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
             marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
@@ -66,11 +69,13 @@ namespace CORPORATION
             fuelstationTimer.Elapsed += new ElapsedEventHandler(fuelstation.CheckFuelReserve);
             fuelstationTimer.Elapsed += new ElapsedEventHandler(fuelstation.CheckTankOrders);
 
+            carrierTimer.Elapsed += new ElapsedEventHandler(carrier.CheckTrucks);
+
             marketTimer.Start();
             plantTimer.Start();
             mainMonitorTimer.Start();
             fuelstationTimer.Start();
-
+            carrierTimer.Start();
 
         }
 
@@ -84,6 +89,7 @@ namespace CORPORATION
 
             BANK bank = new BANK();
             FUELSTATION tfstation = new FUELSTATION();
+            CARRIER carrier = new CARRIER();
 
             var cdc = new CorporationDataContext();
 
@@ -188,8 +194,8 @@ namespace CORPORATION
 
             Action textDisplayAct = () => {
                 dataGridView1.DataSource = cdc.ProductOrders;
-                dataGridView2.DataSource = PlantInvoicesList;
-                dataGridView3.DataSource = PaymentsList;
+              //  dataGridView2.DataSource = PlantInvoicesList;
+              //  dataGridView3.DataSource = PaymentsList;
                 dataGridView4.DataSource = cdc.TankFuelOrders;
 
 
@@ -207,8 +213,8 @@ namespace CORPORATION
                 label21.Text = tfstation.nomberProcessTankOrd().ToString();
                 label23.Text = tfstation.momentalTankFuelAmount().ToString();
                 label25.Text = tfstation.fuelReserve.ToString();
-
-
+                label32.Text = carrier.TrucksCount().ToString();
+                
 
             };
 
@@ -223,14 +229,15 @@ namespace CORPORATION
             MMDaction();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        
+
+        private void button2_Click_1(object sender, EventArgs e)
         {
             marketTimer.Stop();
             plantTimer.Stop();
             mainMonitorTimer.Stop();
             fuelstationTimer.Stop();
-
+            carrierTimer.Stop();
         }
-
     }
 }

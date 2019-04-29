@@ -42,19 +42,19 @@ namespace CORPORATION
                 
 
 
-                if (nomberProcessTankOrd < FuelStationPostsNumber && waitingTankOrd != null)
+                if (nomberProcessTankOrd < FuelStationPostsNumber && waitingTankOrd != null && fuelReserve>0)
                 {
-                try
-                {
-                   int oldestTankOrdID = waitingTankOrd.TankFuelOrderID;
+                    try
+                    {
+                       int oldestTankOrdID = waitingTankOrd.TankFuelOrderID;
                     
 
-                    await Task.Run(()=>NextVehicleToTank(oldestTankOrdID));
+                        await Task.Run(()=>NextVehicleToTank(oldestTankOrdID));
 
-                    await Task.Run(() => TankVehicle(oldestTankOrdID));
+                        await Task.Run(() => TankVehicle(oldestTankOrdID));
 
-                }
-                catch
+                     }
+                   catch
                    {
 
                     }
@@ -63,7 +63,7 @@ namespace CORPORATION
 
                 }
 
-            if (inprocTankOrd != null)
+            if (inprocTankOrd != null && fuelReserve > 0)
             {
                 try
                 {
