@@ -44,7 +44,7 @@ namespace CORPORATION
              int  plantPeriod = random.Next(2000);
              int monitorPeriod = random.Next(3000);   */
 
-            int marPeriod = 7000;
+            int marPeriod = 5000;
             int plantPeriod = 3000;
             int monitorPeriod = 2000;
             int fuelstPeriod = 3000;
@@ -159,7 +159,7 @@ namespace CORPORATION
                 label38.Text = carrier.OpenTransOrdersQty().ToString();
                 label34.Text = carrier.InProcessTransOrdersQty().ToString();
                 label36.Text = carrier.FreeTrucksCount().ToString();
-
+                label32.Text = carrier.OnServiceTruckQty().ToString();
 
 
 
