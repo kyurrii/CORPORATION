@@ -124,69 +124,7 @@ namespace CORPORATION
                                      PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
                                      PaymentStatus = pay.Status
                                  }).ToList();
-            /*
-            var TransactionsList = cdc.BankTransactions.Join(cdc.PlantInvoices,
-                                       trans => trans.PlantInvoiceID,
-                                       inv => inv.PlantInviceID,
-                                       (trans, inv) => new
-                                       {
-                                           Transaction = trans,
-                                           PlantInvoice = inv,
-                                       })
-                                       .Join(cdc.Payments,
-                                          ti => ti.Transaction.PaymentID,
-                                          pay => pay.PaymentID,
-                                          (ti, pay) => new
-                                          {
-                                              ti.Transaction,
-                                              ti.PlantInvoice,
-                                              Payment = pay,
-                                          })
-                                             .Select(c => new
-                                             {
-                                                 c.Transaction.TransactionID,
-                                                 c.PlantInvoice.PlantInviceID,
-                                                 c.Payment.PaymentID
-                                             }).ToList();
-
-
-            var TransactionsList1= from transaction in cdc.BankTransactions
-                                   join plntInvoice in cdc.PlantInvoices
-                                   on transaction.PlantInvoiceID equals plntInvoice.PlantInviceID
-                                   join payment in cdc.Payments
-                                   on  transaction.PaymentID equals payment.PaymentID
-                                   select new
-                                   {
-                                       transaction.TransactionID,
-                                       plntInvoice.PlantInviceID,
-                                       payment.PaymentID
-                                   };
-                                   */
-
-            /*
-             var TransactionsList = cdc.BankTransactions.Join(cdc.PlantInvoices,
-                                        trans => trans.PlantInvoiceID,
-                                        inv => inv.PlantInviceID,
-                                        (trans, inv) => new
-                                        {
-                                            TransactionID = trans.TransactionID,
-                                            PlantInvoiceID = inv.PlantInviceID,
-                                            PlantInvoiceValue = (cdc.ProductOrders.Where(s => s.MProdOrderID == inv.MProdOrderID).Select(v => v.ProdOrderValue).FirstOrDefault()),
-                                            PaymentID=trans.PaymentID,
-                                        })
-                                        .Join(cdc.Payments,
-                                              transs=>transs.PaymentID, 
-                                              pay=>pay.PaymentID,
-                                              (transs, pay) => new
-                                              {
-                                                  TransactionID = transs.TransactionID,
-                                                  PlantInvoiceID=transs.PlantInvoiceID,
-                                                  PlantInvoiceValue=transs.PlantInvoiceValue,
-                                                  PaymentID = transs.PaymentID,
-                                                  PaymentAmount= cdc.ProductOrders.Where(s => s.MProdOrderID == pay.MProdOrderID).Select(v => v.ProdOrderValue).FirstOrDefault(),
-                                              }
-                                        );
-                                           */
+          
 
 
                decimal TotalPaymentsAmount = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
@@ -196,21 +134,22 @@ namespace CORPORATION
 
 
             Action textDisplayAct = () => {
-                dataGridView1.DataSource = cdc.ProductOrders;
+                dataGridView1.DataSource = cdc.TransOrders;
               //  dataGridView2.DataSource = PlantInvoicesList;
               //  dataGridView3.DataSource = PaymentsList;
-                dataGridView4.DataSource = cdc.TankFuelOrders;
+                dataGridView4.DataSource = cdc.Trucks;
 
 
                 label3.Text = openOrdNum.ToString();
                 label5.Text = openOrderTotValue.ToString();
                 label7.Text = inprodOrdNum.ToString();
                 label9.Text = onStock.ToString();
-               // label11.Text = PlantInvoicedTotalAmount.ToString();
+               
 
                 label16.Text = bank.balance.ToString();
                 label28.Text = bank.PlantInput.ToString();
                 label29.Text = bank.FuelInput.ToString();
+                label11.Text = bank.TransInput.ToString();
 
                 label19.Text = tfstation.nomberWaitTankOrd().ToString();
                 label21.Text = tfstation.nomberProcessTankOrd().ToString();
@@ -219,6 +158,8 @@ namespace CORPORATION
                 label32.Text = carrier.TrucksCount().ToString();
                 label38.Text = carrier.OpenTransOrdersQty().ToString();
                 label34.Text = carrier.InProcessTransOrdersQty().ToString();
+                label36.Text = carrier.FreeTrucksCount().ToString();
+
 
 
 

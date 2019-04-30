@@ -13,8 +13,9 @@ namespace CORPORATION
     {
         public decimal balance = BalanceTuple().Item1;
 
-        public decimal PlantInput = BalanceTuple().Item2;
-        public decimal FuelInput = BalanceTuple().Item3;
+        public decimal PlantInput = BalanceTuple().Item2*100;
+        public decimal FuelInput = BalanceTuple().Item3*100;
+        public decimal TransInput = BalanceTuple().Item4*100;
 
 
         public async void checkInvoices(object source, ElapsedEventArgs e)
@@ -221,13 +222,13 @@ namespace CORPORATION
         }
 
 
-       public  static Tuple <decimal, decimal, decimal> BalanceTuple()
+       public  static Tuple <decimal, decimal, decimal,decimal> BalanceTuple()
         {
-
 
             decimal balance = 0;
             decimal PlantInput = 0;
             decimal FuelInput = 0;
+            decimal TransInput = 0;
 
             var cdc = new CorporationDataContext();
             var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
@@ -261,8 +262,12 @@ namespace CORPORATION
 
             decimal FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
 
-            decimal InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue;
-            decimal PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue;
+            decimal TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s=>s.Status=="delivered").Sum(s=>s.OrderValue));
+
+            decimal TransPaymentsValue = TransSoldValue * 85/100;
+
+            decimal InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
+            decimal PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue+ TransPaymentsValue;
 
            
 
@@ -271,14 +276,14 @@ namespace CORPORATION
             try { 
                   FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance;
                   PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance;
-
+                TransInput = (TransSoldValue - TransPaymentsValue) / balance;
             }
             catch
             {
 
             }
 
-            return Tuple.Create(balance, PlantInput, FuelInput);
+            return Tuple.Create(balance, PlantInput, FuelInput, TransInput);
         }
 
     }

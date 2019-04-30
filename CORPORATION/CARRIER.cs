@@ -20,8 +20,27 @@ namespace CORPORATION
             
             var oldestOpenTransOrd = cdc.TransOrders.Where(s => s.Status == "open").OrderBy(s => s.Date).FirstOrDefault();
             var nextFreeTruck = cdc.Trucks.Where(s => s.Status == "free").OrderBy(s => s.TruckID).FirstOrDefault();
+            var oldestInprocessTransOrd = cdc.TransOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
 
            
+
+            if (oldestInprocessTransOrd!=null)
+            {
+                try
+                {
+                    int ongoingTruckID = (int)cdc.TruckTrips.Where(s => s.TransOrderID == oldestInprocessTransOrd.TransOrderID).Select(m => m.TruckID).FirstOrDefault();
+                  var onTripTruck = cdc.Trucks.Where(s => s.TruckID == ongoingTruckID).FirstOrDefault();
+
+                    oldestInprocessTransOrd.Status = "delivered";
+                    onTripTruck.Status = "free";
+                    cdc.SubmitChanges();
+                }
+                catch
+                {
+
+                }
+
+            }
 
             if (oldestOpenTransOrd!=null && nextFreeTruck != null)
             {
@@ -31,12 +50,13 @@ namespace CORPORATION
 
                 try
                 {
-                    oldestOpenTransOrd.Status = "inprocess";
-                    cdc.SubmitChanges();
+                   
 
                     await Task.Run(()=>StartNewTrip(trOrdID,truckID));
 
                     oldestOpenTransOrd.Status = "delivered";
+                    nextFreeTruck.Status = "free";
+
                     cdc.SubmitChanges();
                 }
                 catch
@@ -59,10 +79,22 @@ namespace CORPORATION
             var cdc = new CorporationDataContext();
 
             var nextTransOrder = cdc.TransOrders.Where(s => s.TransOrderID == trordID).FirstOrDefault();
+          
+            var nextFreeTruck = cdc.Trucks.Where(s => s.TruckID == truckID).FirstOrDefault();
 
             int distance = (int)nextTransOrder.Distance;
-            int dur = distance*3;
+            int dur = distance*5;
 
+            try
+            {
+                nextTransOrder.Status = "inprocess";
+                nextFreeTruck.Status = "onTrip";
+                cdc.SubmitChanges();
+            }
+            catch
+            {
+
+            }
 
             itemsCount = cdc.TruckTrips.Count();
 
@@ -85,7 +117,8 @@ namespace CORPORATION
                 {
                     TruckTripID = nextItemID,
                     TransOrderID = trordID,
-                    TruckID= truckID
+                    TruckID = truckID,
+                    Date = DateTime.Now
 
                 }
                          );
@@ -179,6 +212,13 @@ namespace CORPORATION
             return nomberTrucks;
         }
 
+        public int FreeTrucksCount()
+        {
+            var cdc = new CorporationDataContext();
+
+            int freeTrucksnomber = cdc.Trucks.Where(s => s.Status == "free").Count();
+            return freeTrucksnomber;
+        }
 
         public int OpenTransOrdersQty()
         {

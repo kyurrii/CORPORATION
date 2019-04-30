@@ -60,13 +60,7 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
@@ -76,6 +70,8 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.panel1.SuspendLayout();
@@ -87,10 +83,10 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(580, 308);
+            this.dataGridView1.Location = new System.Drawing.Point(580, 292);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(609, 142);
+            this.dataGridView1.Size = new System.Drawing.Size(598, 158);
             this.dataGridView1.TabIndex = 0;
             // 
             // dataGridView4
@@ -142,8 +138,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -155,7 +149,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(12, 54);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(447, 232);
+            this.panel1.Size = new System.Drawing.Size(447, 198);
             this.panel1.TabIndex = 8;
             // 
             // label9
@@ -223,8 +217,6 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.label14);
-            this.panel3.Controls.Add(this.label13);
             this.panel3.Controls.Add(this.label25);
             this.panel3.Controls.Add(this.label24);
             this.panel3.Controls.Add(this.label23);
@@ -385,6 +377,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label11);
+            this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.label29);
             this.panel2.Controls.Add(this.label28);
             this.panel2.Controls.Add(this.label27);
@@ -392,51 +386,13 @@
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.label16);
             this.panel2.Controls.Add(this.label15);
-            this.panel2.Location = new System.Drawing.Point(12, 292);
+            this.panel2.Location = new System.Drawing.Point(12, 258);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(447, 151);
+            this.panel2.Size = new System.Drawing.Size(447, 185);
             this.panel2.TabIndex = 9;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(24, 199);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(175, 20);
-            this.label10.TabIndex = 15;
-            this.label10.Text = "Operational Profit, UAH";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(367, 199);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(60, 20);
-            this.label11.TabIndex = 16;
-            this.label11.Text = "label11";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(25, 187);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(175, 20);
-            this.label13.TabIndex = 31;
-            this.label13.Text = "Operational Profit, UAH";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(358, 187);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(60, 20);
-            this.label14.TabIndex = 32;
-            this.label14.Text = "label14";
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.label30);
-            this.panel4.Controls.Add(this.label31);
             this.panel4.Controls.Add(this.label32);
             this.panel4.Controls.Add(this.label33);
             this.panel4.Controls.Add(this.label34);
@@ -448,26 +404,8 @@
             this.panel4.Controls.Add(this.label40);
             this.panel4.Location = new System.Drawing.Point(580, 41);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(447, 232);
+            this.panel4.Size = new System.Drawing.Size(598, 211);
             this.panel4.TabIndex = 11;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(367, 199);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(60, 20);
-            this.label30.TabIndex = 16;
-            this.label30.Text = "label30";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(24, 199);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(175, 20);
-            this.label31.TabIndex = 15;
-            this.label31.Text = "Operational Profit, UAH";
             // 
             // label32
             // 
@@ -483,14 +421,14 @@
             this.label33.AutoSize = true;
             this.label33.Location = new System.Drawing.Point(25, 164);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(89, 20);
+            this.label33.Size = new System.Drawing.Size(202, 20);
             this.label33.TabIndex = 13;
-            this.label33.Text = "Trucks Q-ty";
+            this.label33.Text = "Trucks at Tech Service Q-ty";
             // 
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(367, 124);
+            this.label34.Location = new System.Drawing.Point(367, 100);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(60, 20);
             this.label34.TabIndex = 12;
@@ -499,7 +437,7 @@
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(24, 124);
+            this.label35.Location = new System.Drawing.Point(24, 100);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(167, 20);
             this.label35.TabIndex = 11;
@@ -508,7 +446,7 @@
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(367, 87);
+            this.label36.Location = new System.Drawing.Point(367, 137);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(60, 20);
             this.label36.TabIndex = 10;
@@ -517,11 +455,11 @@
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(24, 87);
+            this.label37.Location = new System.Drawing.Point(25, 137);
             this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(227, 20);
+            this.label37.Size = new System.Drawing.Size(126, 20);
             this.label37.TabIndex = 9;
-            this.label37.Text = "Open Orders Total Value, UAH";
+            this.label37.Text = "Free Trucks Q-ty";
             // 
             // label38
             // 
@@ -549,6 +487,24 @@
             this.label40.Size = new System.Drawing.Size(133, 20);
             this.label40.TabIndex = 7;
             this.label40.Text = "Open Orders Q-ty";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(25, 156);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(258, 20);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "Transport Company Input Share, %";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(358, 156);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(60, 20);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "label11";
             // 
             // MainMonitor
             // 
@@ -614,13 +570,7 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
@@ -630,5 +580,7 @@
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
     }
 }
