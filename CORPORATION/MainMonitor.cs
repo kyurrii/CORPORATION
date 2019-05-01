@@ -44,11 +44,11 @@ namespace CORPORATION
              int  plantPeriod = random.Next(2000);
              int monitorPeriod = random.Next(3000);   */
 
-            int marPeriod = 5000;
-            int plantPeriod = 3000;
+            int marPeriod = 8000;
+            int plantPeriod = 5000;
             int monitorPeriod = 2000;
-            int fuelstPeriod = 3000;
-            int carrierPeriod = 3000;
+            int fuelstPeriod = 4000;
+            int carrierPeriod = 4000;
 
 
             marketTimer.Interval = marPeriod;
@@ -93,45 +93,13 @@ namespace CORPORATION
             BANK bank = new BANK();
             FUELSTATION tfstation = new FUELSTATION();
             CARRIER carrier = new CARRIER();
+            PLANT plant = new PLANT();
 
             var cdc = new CorporationDataContext();
 
-            int openOrdNum = cdc.ProductOrders.Count(s => s.Status == "open");
-            int inprodOrdNum = cdc.ProductOrders.Count(s => s.Status == "inproduction");
-            int onStock = cdc.ProductOrders.Count(s => s.Status == "onstock");
+           
 
-            var openOrdList = cdc.ProductOrders.Where(s => s.Status == "open");
-            decimal openOrderTotValue = Convert.ToDecimal(openOrdList.Sum(s => s.ProdOrderValue));
-
-            var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
-                                   inv => inv.MProdOrderID,
-                                   ord => ord.MProdOrderID,
-                                   (inv, ord) => new
-                                   {
-                                       PlantInvID = inv.PlantInviceID,
-                                       InvoiceValue = ord.ProdOrderValue,
-                                       InvoiceStatus = inv.Status,
-                                       PlantInvDate = ord.OrderDate,
-                                       PlantInvPayTerm = ord.PaymentTerm
-                                   }).ToList();
-
-            var PaymentsList = cdc.Payments.Join(cdc.ProductOrders,
-                                 pay => pay.MProdOrderID,
-                                 ord => ord.MProdOrderID,
-                                 (pay, ord) => new
-                                 {
-                                     PaymID = pay.PaymentID,
-                                     PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
-                                     PaymentStatus = pay.Status
-                                 }).ToList();
-          
-
-
-               decimal TotalPaymentsAmount = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
-
-
-                decimal PlantInvoicedTotalAmount = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
-
+    
 
             Action textDisplayAct = () => {
                 dataGridView1.DataSource = cdc.TransOrders;
@@ -140,13 +108,13 @@ namespace CORPORATION
                 dataGridView4.DataSource = cdc.Trucks;
 
 
-                label3.Text = openOrdNum.ToString();
-                label5.Text = openOrderTotValue.ToString("N2");
-                label7.Text = inprodOrdNum.ToString();
-                label9.Text = onStock.ToString();
+                label3.Text = plant.OpenProdOrderQty().ToString();
+              
+                label7.Text = plant.InProdOrdQty().ToString();
+                label9.Text = plant.OnstockOrdQty().ToString();
                
 
-                label16.Text = bank.balance.ToString("N2");
+                label16.Text = bank.balance.ToString("N0");
                 label28.Text = bank.PlantInput.ToString("N");
                 label29.Text = bank.FuelInput.ToString("N");
                 label11.Text = bank.TransInput.ToString("N");

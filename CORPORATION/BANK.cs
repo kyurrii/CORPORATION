@@ -7,6 +7,7 @@ using Timer = System.Windows.Forms.Timer;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
+using System.Data.Linq;
 
 namespace CORPORATION
 {
@@ -61,7 +62,7 @@ namespace CORPORATION
                     {
                         inv.Status = "paid";
                     }
-                    cdc.SubmitChanges();
+                    cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
                 }
 
             }
@@ -110,7 +111,7 @@ namespace CORPORATION
                         {
                             pay.Status = "paid";
                         }
-                        cdc.SubmitChanges();
+                        cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
 
                     }
 
@@ -131,8 +132,8 @@ namespace CORPORATION
             var cdc = new CorporationDataContext();
 
 
-            int lastItemID;
-            int nextItemID;
+            int lastItemID=0;
+            int nextItemID=0;
             int itemsCount = 0;
 
             itemsCount = cdc.BankTransactions.Count();
@@ -149,7 +150,7 @@ namespace CORPORATION
 
             try
             {
-
+               // var cdc = new CorporationDataContext();
                 cdc.BankTransactions.InsertOnSubmit(
 
                new BankTransaction
@@ -161,16 +162,18 @@ namespace CORPORATION
                    TankFuelInvoiceID = fuelinvID,
                    Status = "pending",
                    Confirmed = "no",
-                   Date = DateTime.Now
+                   Date = DateTime.Now,
+                   FuelPaymentID=null,
+                   TransPaymentID=null
 
                }
                    );
-                cdc.SubmitChanges();
+                cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+               // MessageBox.Show("Exception: " + ex.Message);
 
             }
         }
@@ -237,11 +240,14 @@ namespace CORPORATION
            
 
                    balance = InvoicedTotalValue - PaymentsTotalValue;
+                if (balance != 0)
+                {
 
-           
-                   FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance*100;
-                   PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance*100;
-                   TransInput = (TransSoldValue - TransPaymentsValue) / balance*100;
+                    FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance * 100;
+                    PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance * 100;
+                    TransInput = (TransSoldValue - TransPaymentsValue) / balance * 100;
+
+                }
             }
             catch (Exception ex)
             {

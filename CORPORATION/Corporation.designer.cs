@@ -39,12 +39,6 @@ namespace CORPORATION
     partial void InsertPlantInvoice(PlantInvoice instance);
     partial void UpdatePlantInvoice(PlantInvoice instance);
     partial void DeletePlantInvoice(PlantInvoice instance);
-    partial void InsertBankTransaction(BankTransaction instance);
-    partial void UpdateBankTransaction(BankTransaction instance);
-    partial void DeleteBankTransaction(BankTransaction instance);
-    partial void InsertTankFuelInvoice(TankFuelInvoice instance);
-    partial void UpdateTankFuelInvoice(TankFuelInvoice instance);
-    partial void DeleteTankFuelInvoice(TankFuelInvoice instance);
     partial void InsertTruck(Truck instance);
     partial void UpdateTruck(Truck instance);
     partial void DeleteTruck(Truck instance);
@@ -54,15 +48,21 @@ namespace CORPORATION
     partial void InsertTankFuelPayment(TankFuelPayment instance);
     partial void UpdateTankFuelPayment(TankFuelPayment instance);
     partial void DeleteTankFuelPayment(TankFuelPayment instance);
-    partial void InsertTankFuelOrder(TankFuelOrder instance);
-    partial void UpdateTankFuelOrder(TankFuelOrder instance);
-    partial void DeleteTankFuelOrder(TankFuelOrder instance);
     partial void InsertTransOrder(TransOrder instance);
     partial void UpdateTransOrder(TransOrder instance);
     partial void DeleteTransOrder(TransOrder instance);
     partial void InsertTruckTrip(TruckTrip instance);
     partial void UpdateTruckTrip(TruckTrip instance);
     partial void DeleteTruckTrip(TruckTrip instance);
+    partial void InsertBankTransaction(BankTransaction instance);
+    partial void UpdateBankTransaction(BankTransaction instance);
+    partial void DeleteBankTransaction(BankTransaction instance);
+    partial void InsertTankFuelInvoice(TankFuelInvoice instance);
+    partial void UpdateTankFuelInvoice(TankFuelInvoice instance);
+    partial void DeleteTankFuelInvoice(TankFuelInvoice instance);
+    partial void InsertTankFuelOrder(TankFuelOrder instance);
+    partial void UpdateTankFuelOrder(TankFuelOrder instance);
+    partial void DeleteTankFuelOrder(TankFuelOrder instance);
     #endregion
 		
 		public CorporationDataContext() : 
@@ -119,22 +119,6 @@ namespace CORPORATION
 			}
 		}
 		
-		public System.Data.Linq.Table<BankTransaction> BankTransactions
-		{
-			get
-			{
-				return this.GetTable<BankTransaction>();
-			}
-		}
-		
-		public System.Data.Linq.Table<TankFuelInvoice> TankFuelInvoices
-		{
-			get
-			{
-				return this.GetTable<TankFuelInvoice>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Truck> Trucks
 		{
 			get
@@ -159,14 +143,6 @@ namespace CORPORATION
 			}
 		}
 		
-		public System.Data.Linq.Table<TankFuelOrder> TankFuelOrders
-		{
-			get
-			{
-				return this.GetTable<TankFuelOrder>();
-			}
-		}
-		
 		public System.Data.Linq.Table<TransOrder> TransOrders
 		{
 			get
@@ -180,6 +156,30 @@ namespace CORPORATION
 			get
 			{
 				return this.GetTable<TruckTrip>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BankTransaction> BankTransactions
+		{
+			get
+			{
+				return this.GetTable<BankTransaction>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TankFuelInvoice> TankFuelInvoices
+		{
+			get
+			{
+				return this.GetTable<TankFuelInvoice>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TankFuelOrder> TankFuelOrders
+		{
+			get
+			{
+				return this.GetTable<TankFuelOrder>();
 			}
 		}
 	}
@@ -852,692 +852,6 @@ namespace CORPORATION
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BankTransactions")]
-	public partial class BankTransaction : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _TransactionID;
-		
-		private System.Nullable<int> _PlantInvoiceID;
-		
-		private System.Nullable<int> _PaymentID;
-		
-		private System.Nullable<int> _TankFuelInvoiceID;
-		
-		private System.Nullable<int> _TransInvoiceID;
-		
-		private string _Confirmed;
-		
-		private string _Status;
-		
-		private System.Nullable<System.DateTime> _Date;
-		
-		private System.Nullable<int> _FuelPaymentID;
-		
-		private System.Nullable<int> _TransPaymentID;
-		
-		private EntityRef<Payment> _Payment;
-		
-		private EntityRef<PlantInvoice> _PlantInvoice;
-		
-		private EntityRef<TankFuelInvoice> _TankFuelInvoice;
-		
-		private EntityRef<TransInvoice> _TransInvoice;
-		
-		private EntityRef<TankFuelPayment> _TankFuelPayment;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnTransactionIDChanging(int value);
-    partial void OnTransactionIDChanged();
-    partial void OnPlantInvoiceIDChanging(System.Nullable<int> value);
-    partial void OnPlantInvoiceIDChanged();
-    partial void OnPaymentIDChanging(System.Nullable<int> value);
-    partial void OnPaymentIDChanged();
-    partial void OnTankFuelInvoiceIDChanging(System.Nullable<int> value);
-    partial void OnTankFuelInvoiceIDChanged();
-    partial void OnTransInvoiceIDChanging(System.Nullable<int> value);
-    partial void OnTransInvoiceIDChanged();
-    partial void OnConfirmedChanging(string value);
-    partial void OnConfirmedChanged();
-    partial void OnStatusChanging(string value);
-    partial void OnStatusChanged();
-    partial void OnDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateChanged();
-    partial void OnFuelPaymentIDChanging(System.Nullable<int> value);
-    partial void OnFuelPaymentIDChanged();
-    partial void OnTransPaymentIDChanging(System.Nullable<int> value);
-    partial void OnTransPaymentIDChanged();
-    #endregion
-		
-		public BankTransaction()
-		{
-			this._Payment = default(EntityRef<Payment>);
-			this._PlantInvoice = default(EntityRef<PlantInvoice>);
-			this._TankFuelInvoice = default(EntityRef<TankFuelInvoice>);
-			this._TransInvoice = default(EntityRef<TransInvoice>);
-			this._TankFuelPayment = default(EntityRef<TankFuelPayment>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int TransactionID
-		{
-			get
-			{
-				return this._TransactionID;
-			}
-			set
-			{
-				if ((this._TransactionID != value))
-				{
-					this.OnTransactionIDChanging(value);
-					this.SendPropertyChanging();
-					this._TransactionID = value;
-					this.SendPropertyChanged("TransactionID");
-					this.OnTransactionIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlantInvoiceID", DbType="Int")]
-		public System.Nullable<int> PlantInvoiceID
-		{
-			get
-			{
-				return this._PlantInvoiceID;
-			}
-			set
-			{
-				if ((this._PlantInvoiceID != value))
-				{
-					if (this._PlantInvoice.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPlantInvoiceIDChanging(value);
-					this.SendPropertyChanging();
-					this._PlantInvoiceID = value;
-					this.SendPropertyChanged("PlantInvoiceID");
-					this.OnPlantInvoiceIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PaymentID", DbType="Int")]
-		public System.Nullable<int> PaymentID
-		{
-			get
-			{
-				return this._PaymentID;
-			}
-			set
-			{
-				if ((this._PaymentID != value))
-				{
-					if (this._Payment.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPaymentIDChanging(value);
-					this.SendPropertyChanging();
-					this._PaymentID = value;
-					this.SendPropertyChanged("PaymentID");
-					this.OnPaymentIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelInvoiceID", DbType="Int")]
-		public System.Nullable<int> TankFuelInvoiceID
-		{
-			get
-			{
-				return this._TankFuelInvoiceID;
-			}
-			set
-			{
-				if ((this._TankFuelInvoiceID != value))
-				{
-					if (this._TankFuelInvoice.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTankFuelInvoiceIDChanging(value);
-					this.SendPropertyChanging();
-					this._TankFuelInvoiceID = value;
-					this.SendPropertyChanged("TankFuelInvoiceID");
-					this.OnTankFuelInvoiceIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransInvoiceID", DbType="Int")]
-		public System.Nullable<int> TransInvoiceID
-		{
-			get
-			{
-				return this._TransInvoiceID;
-			}
-			set
-			{
-				if ((this._TransInvoiceID != value))
-				{
-					if (this._TransInvoice.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTransInvoiceIDChanging(value);
-					this.SendPropertyChanging();
-					this._TransInvoiceID = value;
-					this.SendPropertyChanged("TransInvoiceID");
-					this.OnTransInvoiceIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Confirmed", DbType="NChar(10)")]
-		public string Confirmed
-		{
-			get
-			{
-				return this._Confirmed;
-			}
-			set
-			{
-				if ((this._Confirmed != value))
-				{
-					this.OnConfirmedChanging(value);
-					this.SendPropertyChanging();
-					this._Confirmed = value;
-					this.SendPropertyChanged("Confirmed");
-					this.OnConfirmedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NChar(10)")]
-		public string Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FuelPaymentID", DbType="Int")]
-		public System.Nullable<int> FuelPaymentID
-		{
-			get
-			{
-				return this._FuelPaymentID;
-			}
-			set
-			{
-				if ((this._FuelPaymentID != value))
-				{
-					if (this._TankFuelPayment.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnFuelPaymentIDChanging(value);
-					this.SendPropertyChanging();
-					this._FuelPaymentID = value;
-					this.SendPropertyChanged("FuelPaymentID");
-					this.OnFuelPaymentIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransPaymentID", DbType="Int")]
-		public System.Nullable<int> TransPaymentID
-		{
-			get
-			{
-				return this._TransPaymentID;
-			}
-			set
-			{
-				if ((this._TransPaymentID != value))
-				{
-					this.OnTransPaymentIDChanging(value);
-					this.SendPropertyChanging();
-					this._TransPaymentID = value;
-					this.SendPropertyChanged("TransPaymentID");
-					this.OnTransPaymentIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Payment_BankTransaction", Storage="_Payment", ThisKey="PaymentID", OtherKey="PaymentID", IsForeignKey=true)]
-		public Payment Payment
-		{
-			get
-			{
-				return this._Payment.Entity;
-			}
-			set
-			{
-				Payment previousValue = this._Payment.Entity;
-				if (((previousValue != value) 
-							|| (this._Payment.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Payment.Entity = null;
-						previousValue.BankTransactions.Remove(this);
-					}
-					this._Payment.Entity = value;
-					if ((value != null))
-					{
-						value.BankTransactions.Add(this);
-						this._PaymentID = value.PaymentID;
-					}
-					else
-					{
-						this._PaymentID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Payment");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PlantInvoice_BankTransaction", Storage="_PlantInvoice", ThisKey="PlantInvoiceID", OtherKey="PlantInviceID", IsForeignKey=true)]
-		public PlantInvoice PlantInvoice
-		{
-			get
-			{
-				return this._PlantInvoice.Entity;
-			}
-			set
-			{
-				PlantInvoice previousValue = this._PlantInvoice.Entity;
-				if (((previousValue != value) 
-							|| (this._PlantInvoice.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._PlantInvoice.Entity = null;
-						previousValue.BankTransactions.Remove(this);
-					}
-					this._PlantInvoice.Entity = value;
-					if ((value != null))
-					{
-						value.BankTransactions.Add(this);
-						this._PlantInvoiceID = value.PlantInviceID;
-					}
-					else
-					{
-						this._PlantInvoiceID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("PlantInvoice");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelInvoice_BankTransaction", Storage="_TankFuelInvoice", ThisKey="TankFuelInvoiceID", OtherKey="TankFuelInvoiceID", IsForeignKey=true)]
-		public TankFuelInvoice TankFuelInvoice
-		{
-			get
-			{
-				return this._TankFuelInvoice.Entity;
-			}
-			set
-			{
-				TankFuelInvoice previousValue = this._TankFuelInvoice.Entity;
-				if (((previousValue != value) 
-							|| (this._TankFuelInvoice.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TankFuelInvoice.Entity = null;
-						previousValue.BankTransactions.Remove(this);
-					}
-					this._TankFuelInvoice.Entity = value;
-					if ((value != null))
-					{
-						value.BankTransactions.Add(this);
-						this._TankFuelInvoiceID = value.TankFuelInvoiceID;
-					}
-					else
-					{
-						this._TankFuelInvoiceID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TankFuelInvoice");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TransInvoice_BankTransaction", Storage="_TransInvoice", ThisKey="TransInvoiceID", OtherKey="TransInvoiceID", IsForeignKey=true)]
-		public TransInvoice TransInvoice
-		{
-			get
-			{
-				return this._TransInvoice.Entity;
-			}
-			set
-			{
-				TransInvoice previousValue = this._TransInvoice.Entity;
-				if (((previousValue != value) 
-							|| (this._TransInvoice.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TransInvoice.Entity = null;
-						previousValue.BankTransactions.Remove(this);
-					}
-					this._TransInvoice.Entity = value;
-					if ((value != null))
-					{
-						value.BankTransactions.Add(this);
-						this._TransInvoiceID = value.TransInvoiceID;
-					}
-					else
-					{
-						this._TransInvoiceID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TransInvoice");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelPayment_BankTransaction", Storage="_TankFuelPayment", ThisKey="FuelPaymentID", OtherKey="FuelPaymentID", IsForeignKey=true)]
-		public TankFuelPayment TankFuelPayment
-		{
-			get
-			{
-				return this._TankFuelPayment.Entity;
-			}
-			set
-			{
-				TankFuelPayment previousValue = this._TankFuelPayment.Entity;
-				if (((previousValue != value) 
-							|| (this._TankFuelPayment.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TankFuelPayment.Entity = null;
-						previousValue.BankTransactions.Remove(this);
-					}
-					this._TankFuelPayment.Entity = value;
-					if ((value != null))
-					{
-						value.BankTransactions.Add(this);
-						this._FuelPaymentID = value.FuelPaymentID;
-					}
-					else
-					{
-						this._FuelPaymentID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TankFuelPayment");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TankFuelInvoices")]
-	public partial class TankFuelInvoice : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _TankFuelInvoiceID;
-		
-		private string _Status;
-		
-		private System.Nullable<System.DateTime> _Date;
-		
-		private System.Nullable<int> _TankFuelOrderID;
-		
-		private EntitySet<BankTransaction> _BankTransactions;
-		
-		private EntityRef<TankFuelOrder> _TankFuelOrder;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnTankFuelInvoiceIDChanging(int value);
-    partial void OnTankFuelInvoiceIDChanged();
-    partial void OnStatusChanging(string value);
-    partial void OnStatusChanged();
-    partial void OnDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateChanged();
-    partial void OnTankFuelOrderIDChanging(System.Nullable<int> value);
-    partial void OnTankFuelOrderIDChanged();
-    #endregion
-		
-		public TankFuelInvoice()
-		{
-			this._BankTransactions = new EntitySet<BankTransaction>(new Action<BankTransaction>(this.attach_BankTransactions), new Action<BankTransaction>(this.detach_BankTransactions));
-			this._TankFuelOrder = default(EntityRef<TankFuelOrder>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelInvoiceID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int TankFuelInvoiceID
-		{
-			get
-			{
-				return this._TankFuelInvoiceID;
-			}
-			set
-			{
-				if ((this._TankFuelInvoiceID != value))
-				{
-					this.OnTankFuelInvoiceIDChanging(value);
-					this.SendPropertyChanging();
-					this._TankFuelInvoiceID = value;
-					this.SendPropertyChanged("TankFuelInvoiceID");
-					this.OnTankFuelInvoiceIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NChar(10)")]
-		public string Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderID", DbType="Int")]
-		public System.Nullable<int> TankFuelOrderID
-		{
-			get
-			{
-				return this._TankFuelOrderID;
-			}
-			set
-			{
-				if ((this._TankFuelOrderID != value))
-				{
-					if (this._TankFuelOrder.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTankFuelOrderIDChanging(value);
-					this.SendPropertyChanging();
-					this._TankFuelOrderID = value;
-					this.SendPropertyChanged("TankFuelOrderID");
-					this.OnTankFuelOrderIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelInvoice_BankTransaction", Storage="_BankTransactions", ThisKey="TankFuelInvoiceID", OtherKey="TankFuelInvoiceID")]
-		public EntitySet<BankTransaction> BankTransactions
-		{
-			get
-			{
-				return this._BankTransactions;
-			}
-			set
-			{
-				this._BankTransactions.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelOrder_TankFuelInvoice", Storage="_TankFuelOrder", ThisKey="TankFuelOrderID", OtherKey="TankFuelOrderID", IsForeignKey=true)]
-		public TankFuelOrder TankFuelOrder
-		{
-			get
-			{
-				return this._TankFuelOrder.Entity;
-			}
-			set
-			{
-				TankFuelOrder previousValue = this._TankFuelOrder.Entity;
-				if (((previousValue != value) 
-							|| (this._TankFuelOrder.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TankFuelOrder.Entity = null;
-						previousValue.TankFuelInvoices.Remove(this);
-					}
-					this._TankFuelOrder.Entity = value;
-					if ((value != null))
-					{
-						value.TankFuelInvoices.Add(this);
-						this._TankFuelOrderID = value.TankFuelOrderID;
-					}
-					else
-					{
-						this._TankFuelOrderID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TankFuelOrder");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_BankTransactions(BankTransaction entity)
-		{
-			this.SendPropertyChanging();
-			entity.TankFuelInvoice = this;
-		}
-		
-		private void detach_BankTransactions(BankTransaction entity)
-		{
-			this.SendPropertyChanging();
-			entity.TankFuelInvoice = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Trucks")]
 	public partial class Truck : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2093,192 +1407,6 @@ namespace CORPORATION
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TankFuelOrders")]
-	public partial class TankFuelOrder : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _TankFuelOrderID;
-		
-		private System.Nullable<int> _TankFuelOrderAmount;
-		
-		private System.Nullable<decimal> _TankFuelOrderValue;
-		
-		private string _Status;
-		
-		private System.Nullable<System.DateTime> _Date;
-		
-		private EntitySet<TankFuelInvoice> _TankFuelInvoices;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnTankFuelOrderIDChanging(int value);
-    partial void OnTankFuelOrderIDChanged();
-    partial void OnTankFuelOrderAmountChanging(System.Nullable<int> value);
-    partial void OnTankFuelOrderAmountChanged();
-    partial void OnTankFuelOrderValueChanging(System.Nullable<decimal> value);
-    partial void OnTankFuelOrderValueChanged();
-    partial void OnStatusChanging(string value);
-    partial void OnStatusChanged();
-    partial void OnDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateChanged();
-    #endregion
-		
-		public TankFuelOrder()
-		{
-			this._TankFuelInvoices = new EntitySet<TankFuelInvoice>(new Action<TankFuelInvoice>(this.attach_TankFuelInvoices), new Action<TankFuelInvoice>(this.detach_TankFuelInvoices));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int TankFuelOrderID
-		{
-			get
-			{
-				return this._TankFuelOrderID;
-			}
-			set
-			{
-				if ((this._TankFuelOrderID != value))
-				{
-					this.OnTankFuelOrderIDChanging(value);
-					this.SendPropertyChanging();
-					this._TankFuelOrderID = value;
-					this.SendPropertyChanged("TankFuelOrderID");
-					this.OnTankFuelOrderIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderAmount", DbType="Int")]
-		public System.Nullable<int> TankFuelOrderAmount
-		{
-			get
-			{
-				return this._TankFuelOrderAmount;
-			}
-			set
-			{
-				if ((this._TankFuelOrderAmount != value))
-				{
-					this.OnTankFuelOrderAmountChanging(value);
-					this.SendPropertyChanging();
-					this._TankFuelOrderAmount = value;
-					this.SendPropertyChanged("TankFuelOrderAmount");
-					this.OnTankFuelOrderAmountChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderValue", DbType="Decimal(18,0)")]
-		public System.Nullable<decimal> TankFuelOrderValue
-		{
-			get
-			{
-				return this._TankFuelOrderValue;
-			}
-			set
-			{
-				if ((this._TankFuelOrderValue != value))
-				{
-					this.OnTankFuelOrderValueChanging(value);
-					this.SendPropertyChanging();
-					this._TankFuelOrderValue = value;
-					this.SendPropertyChanged("TankFuelOrderValue");
-					this.OnTankFuelOrderValueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NChar(10)")]
-		public string Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelOrder_TankFuelInvoice", Storage="_TankFuelInvoices", ThisKey="TankFuelOrderID", OtherKey="TankFuelOrderID")]
-		public EntitySet<TankFuelInvoice> TankFuelInvoices
-		{
-			get
-			{
-				return this._TankFuelInvoices;
-			}
-			set
-			{
-				this._TankFuelInvoices.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_TankFuelInvoices(TankFuelInvoice entity)
-		{
-			this.SendPropertyChanging();
-			entity.TankFuelOrder = this;
-		}
-		
-		private void detach_TankFuelInvoices(TankFuelInvoice entity)
-		{
-			this.SendPropertyChanging();
-			entity.TankFuelOrder = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TransOrders")]
 	public partial class TransOrder : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2678,6 +1806,878 @@ namespace CORPORATION
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BankTransactions")]
+	public partial class BankTransaction : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TransactionID;
+		
+		private System.Nullable<int> _PlantInvoiceID;
+		
+		private System.Nullable<int> _PaymentID;
+		
+		private System.Nullable<int> _TankFuelInvoiceID;
+		
+		private System.Nullable<int> _TransInvoiceID;
+		
+		private string _Confirmed;
+		
+		private string _Status;
+		
+		private System.Nullable<System.DateTime> _Date;
+		
+		private System.Nullable<int> _FuelPaymentID;
+		
+		private System.Nullable<int> _TransPaymentID;
+		
+		private EntityRef<PlantInvoice> _PlantInvoice;
+		
+		private EntityRef<Payment> _Payment;
+		
+		private EntityRef<TankFuelPayment> _TankFuelPayment;
+		
+		private EntityRef<TransInvoice> _TransInvoice;
+		
+		private EntityRef<TankFuelInvoice> _TankFuelInvoice;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTransactionIDChanging(int value);
+    partial void OnTransactionIDChanged();
+    partial void OnPlantInvoiceIDChanging(System.Nullable<int> value);
+    partial void OnPlantInvoiceIDChanged();
+    partial void OnPaymentIDChanging(System.Nullable<int> value);
+    partial void OnPaymentIDChanged();
+    partial void OnTankFuelInvoiceIDChanging(System.Nullable<int> value);
+    partial void OnTankFuelInvoiceIDChanged();
+    partial void OnTransInvoiceIDChanging(System.Nullable<int> value);
+    partial void OnTransInvoiceIDChanged();
+    partial void OnConfirmedChanging(string value);
+    partial void OnConfirmedChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    partial void OnDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateChanged();
+    partial void OnFuelPaymentIDChanging(System.Nullable<int> value);
+    partial void OnFuelPaymentIDChanged();
+    partial void OnTransPaymentIDChanging(System.Nullable<int> value);
+    partial void OnTransPaymentIDChanged();
+    #endregion
+		
+		public BankTransaction()
+		{
+			this._PlantInvoice = default(EntityRef<PlantInvoice>);
+			this._Payment = default(EntityRef<Payment>);
+			this._TankFuelPayment = default(EntityRef<TankFuelPayment>);
+			this._TransInvoice = default(EntityRef<TransInvoice>);
+			this._TankFuelInvoice = default(EntityRef<TankFuelInvoice>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int TransactionID
+		{
+			get
+			{
+				return this._TransactionID;
+			}
+			set
+			{
+				if ((this._TransactionID != value))
+				{
+					this.OnTransactionIDChanging(value);
+					this.SendPropertyChanging();
+					this._TransactionID = value;
+					this.SendPropertyChanged("TransactionID");
+					this.OnTransactionIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlantInvoiceID", DbType="Int")]
+		public System.Nullable<int> PlantInvoiceID
+		{
+			get
+			{
+				return this._PlantInvoiceID;
+			}
+			set
+			{
+				if ((this._PlantInvoiceID != value))
+				{
+					if (this._PlantInvoice.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPlantInvoiceIDChanging(value);
+					this.SendPropertyChanging();
+					this._PlantInvoiceID = value;
+					this.SendPropertyChanged("PlantInvoiceID");
+					this.OnPlantInvoiceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PaymentID", DbType="Int")]
+		public System.Nullable<int> PaymentID
+		{
+			get
+			{
+				return this._PaymentID;
+			}
+			set
+			{
+				if ((this._PaymentID != value))
+				{
+					if (this._Payment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPaymentIDChanging(value);
+					this.SendPropertyChanging();
+					this._PaymentID = value;
+					this.SendPropertyChanged("PaymentID");
+					this.OnPaymentIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelInvoiceID", DbType="Int")]
+		public System.Nullable<int> TankFuelInvoiceID
+		{
+			get
+			{
+				return this._TankFuelInvoiceID;
+			}
+			set
+			{
+				if ((this._TankFuelInvoiceID != value))
+				{
+					if (this._TankFuelInvoice.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTankFuelInvoiceIDChanging(value);
+					this.SendPropertyChanging();
+					this._TankFuelInvoiceID = value;
+					this.SendPropertyChanged("TankFuelInvoiceID");
+					this.OnTankFuelInvoiceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransInvoiceID", DbType="Int")]
+		public System.Nullable<int> TransInvoiceID
+		{
+			get
+			{
+				return this._TransInvoiceID;
+			}
+			set
+			{
+				if ((this._TransInvoiceID != value))
+				{
+					if (this._TransInvoice.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTransInvoiceIDChanging(value);
+					this.SendPropertyChanging();
+					this._TransInvoiceID = value;
+					this.SendPropertyChanged("TransInvoiceID");
+					this.OnTransInvoiceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Confirmed", DbType="NChar(10)")]
+		public string Confirmed
+		{
+			get
+			{
+				return this._Confirmed;
+			}
+			set
+			{
+				if ((this._Confirmed != value))
+				{
+					this.OnConfirmedChanging(value);
+					this.SendPropertyChanging();
+					this._Confirmed = value;
+					this.SendPropertyChanged("Confirmed");
+					this.OnConfirmedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NChar(10)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FuelPaymentID", DbType="Int")]
+		public System.Nullable<int> FuelPaymentID
+		{
+			get
+			{
+				return this._FuelPaymentID;
+			}
+			set
+			{
+				if ((this._FuelPaymentID != value))
+				{
+					if (this._TankFuelPayment.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFuelPaymentIDChanging(value);
+					this.SendPropertyChanging();
+					this._FuelPaymentID = value;
+					this.SendPropertyChanged("FuelPaymentID");
+					this.OnFuelPaymentIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransPaymentID", DbType="Int")]
+		public System.Nullable<int> TransPaymentID
+		{
+			get
+			{
+				return this._TransPaymentID;
+			}
+			set
+			{
+				if ((this._TransPaymentID != value))
+				{
+					this.OnTransPaymentIDChanging(value);
+					this.SendPropertyChanging();
+					this._TransPaymentID = value;
+					this.SendPropertyChanged("TransPaymentID");
+					this.OnTransPaymentIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PlantInvoice_BankTransaction", Storage="_PlantInvoice", ThisKey="PlantInvoiceID", OtherKey="PlantInviceID", IsForeignKey=true)]
+		public PlantInvoice PlantInvoice
+		{
+			get
+			{
+				return this._PlantInvoice.Entity;
+			}
+			set
+			{
+				PlantInvoice previousValue = this._PlantInvoice.Entity;
+				if (((previousValue != value) 
+							|| (this._PlantInvoice.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._PlantInvoice.Entity = null;
+						previousValue.BankTransactions.Remove(this);
+					}
+					this._PlantInvoice.Entity = value;
+					if ((value != null))
+					{
+						value.BankTransactions.Add(this);
+						this._PlantInvoiceID = value.PlantInviceID;
+					}
+					else
+					{
+						this._PlantInvoiceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("PlantInvoice");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Payment_BankTransaction", Storage="_Payment", ThisKey="PaymentID", OtherKey="PaymentID", IsForeignKey=true)]
+		public Payment Payment
+		{
+			get
+			{
+				return this._Payment.Entity;
+			}
+			set
+			{
+				Payment previousValue = this._Payment.Entity;
+				if (((previousValue != value) 
+							|| (this._Payment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Payment.Entity = null;
+						previousValue.BankTransactions.Remove(this);
+					}
+					this._Payment.Entity = value;
+					if ((value != null))
+					{
+						value.BankTransactions.Add(this);
+						this._PaymentID = value.PaymentID;
+					}
+					else
+					{
+						this._PaymentID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Payment");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelPayment_BankTransaction", Storage="_TankFuelPayment", ThisKey="FuelPaymentID", OtherKey="FuelPaymentID", IsForeignKey=true)]
+		public TankFuelPayment TankFuelPayment
+		{
+			get
+			{
+				return this._TankFuelPayment.Entity;
+			}
+			set
+			{
+				TankFuelPayment previousValue = this._TankFuelPayment.Entity;
+				if (((previousValue != value) 
+							|| (this._TankFuelPayment.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TankFuelPayment.Entity = null;
+						previousValue.BankTransactions.Remove(this);
+					}
+					this._TankFuelPayment.Entity = value;
+					if ((value != null))
+					{
+						value.BankTransactions.Add(this);
+						this._FuelPaymentID = value.FuelPaymentID;
+					}
+					else
+					{
+						this._FuelPaymentID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TankFuelPayment");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TransInvoice_BankTransaction", Storage="_TransInvoice", ThisKey="TransInvoiceID", OtherKey="TransInvoiceID", IsForeignKey=true)]
+		public TransInvoice TransInvoice
+		{
+			get
+			{
+				return this._TransInvoice.Entity;
+			}
+			set
+			{
+				TransInvoice previousValue = this._TransInvoice.Entity;
+				if (((previousValue != value) 
+							|| (this._TransInvoice.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TransInvoice.Entity = null;
+						previousValue.BankTransactions.Remove(this);
+					}
+					this._TransInvoice.Entity = value;
+					if ((value != null))
+					{
+						value.BankTransactions.Add(this);
+						this._TransInvoiceID = value.TransInvoiceID;
+					}
+					else
+					{
+						this._TransInvoiceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TransInvoice");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelInvoice_BankTransaction", Storage="_TankFuelInvoice", ThisKey="TankFuelInvoiceID", OtherKey="TankFuelInvoiceID", IsForeignKey=true)]
+		public TankFuelInvoice TankFuelInvoice
+		{
+			get
+			{
+				return this._TankFuelInvoice.Entity;
+			}
+			set
+			{
+				TankFuelInvoice previousValue = this._TankFuelInvoice.Entity;
+				if (((previousValue != value) 
+							|| (this._TankFuelInvoice.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TankFuelInvoice.Entity = null;
+						previousValue.BankTransactions.Remove(this);
+					}
+					this._TankFuelInvoice.Entity = value;
+					if ((value != null))
+					{
+						value.BankTransactions.Add(this);
+						this._TankFuelInvoiceID = value.TankFuelInvoiceID;
+					}
+					else
+					{
+						this._TankFuelInvoiceID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TankFuelInvoice");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TankFuelInvoices")]
+	public partial class TankFuelInvoice : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TankFuelInvoiceID;
+		
+		private System.Nullable<int> _TankFuelOrderID;
+		
+		private string _Status;
+		
+		private System.Nullable<System.DateTime> _Date;
+		
+		private EntitySet<BankTransaction> _BankTransactions;
+		
+		private EntityRef<TankFuelOrder> _TankFuelOrder;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTankFuelInvoiceIDChanging(int value);
+    partial void OnTankFuelInvoiceIDChanged();
+    partial void OnTankFuelOrderIDChanging(System.Nullable<int> value);
+    partial void OnTankFuelOrderIDChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    partial void OnDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateChanged();
+    #endregion
+		
+		public TankFuelInvoice()
+		{
+			this._BankTransactions = new EntitySet<BankTransaction>(new Action<BankTransaction>(this.attach_BankTransactions), new Action<BankTransaction>(this.detach_BankTransactions));
+			this._TankFuelOrder = default(EntityRef<TankFuelOrder>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelInvoiceID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int TankFuelInvoiceID
+		{
+			get
+			{
+				return this._TankFuelInvoiceID;
+			}
+			set
+			{
+				if ((this._TankFuelInvoiceID != value))
+				{
+					this.OnTankFuelInvoiceIDChanging(value);
+					this.SendPropertyChanging();
+					this._TankFuelInvoiceID = value;
+					this.SendPropertyChanged("TankFuelInvoiceID");
+					this.OnTankFuelInvoiceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderID", DbType="Int")]
+		public System.Nullable<int> TankFuelOrderID
+		{
+			get
+			{
+				return this._TankFuelOrderID;
+			}
+			set
+			{
+				if ((this._TankFuelOrderID != value))
+				{
+					if (this._TankFuelOrder.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTankFuelOrderIDChanging(value);
+					this.SendPropertyChanging();
+					this._TankFuelOrderID = value;
+					this.SendPropertyChanged("TankFuelOrderID");
+					this.OnTankFuelOrderIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NChar(10)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelInvoice_BankTransaction", Storage="_BankTransactions", ThisKey="TankFuelInvoiceID", OtherKey="TankFuelInvoiceID")]
+		public EntitySet<BankTransaction> BankTransactions
+		{
+			get
+			{
+				return this._BankTransactions;
+			}
+			set
+			{
+				this._BankTransactions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelOrder_TankFuelInvoice", Storage="_TankFuelOrder", ThisKey="TankFuelOrderID", OtherKey="TankFuelOrderID", IsForeignKey=true)]
+		public TankFuelOrder TankFuelOrder
+		{
+			get
+			{
+				return this._TankFuelOrder.Entity;
+			}
+			set
+			{
+				TankFuelOrder previousValue = this._TankFuelOrder.Entity;
+				if (((previousValue != value) 
+							|| (this._TankFuelOrder.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TankFuelOrder.Entity = null;
+						previousValue.TankFuelInvoices.Remove(this);
+					}
+					this._TankFuelOrder.Entity = value;
+					if ((value != null))
+					{
+						value.TankFuelInvoices.Add(this);
+						this._TankFuelOrderID = value.TankFuelOrderID;
+					}
+					else
+					{
+						this._TankFuelOrderID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TankFuelOrder");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_BankTransactions(BankTransaction entity)
+		{
+			this.SendPropertyChanging();
+			entity.TankFuelInvoice = this;
+		}
+		
+		private void detach_BankTransactions(BankTransaction entity)
+		{
+			this.SendPropertyChanging();
+			entity.TankFuelInvoice = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TankFuelOrders")]
+	public partial class TankFuelOrder : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TankFuelOrderID;
+		
+		private System.Nullable<int> _TankFuelOrderAmount;
+		
+		private System.Nullable<decimal> _TankFuelOrderValue;
+		
+		private string _Status;
+		
+		private System.Nullable<System.DateTime> _Date;
+		
+		private EntitySet<TankFuelInvoice> _TankFuelInvoices;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTankFuelOrderIDChanging(int value);
+    partial void OnTankFuelOrderIDChanged();
+    partial void OnTankFuelOrderAmountChanging(System.Nullable<int> value);
+    partial void OnTankFuelOrderAmountChanged();
+    partial void OnTankFuelOrderValueChanging(System.Nullable<decimal> value);
+    partial void OnTankFuelOrderValueChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    partial void OnDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateChanged();
+    #endregion
+		
+		public TankFuelOrder()
+		{
+			this._TankFuelInvoices = new EntitySet<TankFuelInvoice>(new Action<TankFuelInvoice>(this.attach_TankFuelInvoices), new Action<TankFuelInvoice>(this.detach_TankFuelInvoices));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int TankFuelOrderID
+		{
+			get
+			{
+				return this._TankFuelOrderID;
+			}
+			set
+			{
+				if ((this._TankFuelOrderID != value))
+				{
+					this.OnTankFuelOrderIDChanging(value);
+					this.SendPropertyChanging();
+					this._TankFuelOrderID = value;
+					this.SendPropertyChanged("TankFuelOrderID");
+					this.OnTankFuelOrderIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderAmount", DbType="Int")]
+		public System.Nullable<int> TankFuelOrderAmount
+		{
+			get
+			{
+				return this._TankFuelOrderAmount;
+			}
+			set
+			{
+				if ((this._TankFuelOrderAmount != value))
+				{
+					this.OnTankFuelOrderAmountChanging(value);
+					this.SendPropertyChanging();
+					this._TankFuelOrderAmount = value;
+					this.SendPropertyChanged("TankFuelOrderAmount");
+					this.OnTankFuelOrderAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TankFuelOrderValue", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> TankFuelOrderValue
+		{
+			get
+			{
+				return this._TankFuelOrderValue;
+			}
+			set
+			{
+				if ((this._TankFuelOrderValue != value))
+				{
+					this.OnTankFuelOrderValueChanging(value);
+					this.SendPropertyChanging();
+					this._TankFuelOrderValue = value;
+					this.SendPropertyChanged("TankFuelOrderValue");
+					this.OnTankFuelOrderValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NChar(10)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TankFuelOrder_TankFuelInvoice", Storage="_TankFuelInvoices", ThisKey="TankFuelOrderID", OtherKey="TankFuelOrderID")]
+		public EntitySet<TankFuelInvoice> TankFuelInvoices
+		{
+			get
+			{
+				return this._TankFuelInvoices;
+			}
+			set
+			{
+				this._TankFuelInvoices.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TankFuelInvoices(TankFuelInvoice entity)
+		{
+			this.SendPropertyChanging();
+			entity.TankFuelOrder = this;
+		}
+		
+		private void detach_TankFuelInvoices(TankFuelInvoice entity)
+		{
+			this.SendPropertyChanging();
+			entity.TankFuelOrder = null;
 		}
 	}
 }

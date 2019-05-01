@@ -56,20 +56,22 @@ namespace CORPORATION
                      }
                     catch (Exception ex)
                     {
-                    MessageBox.Show("Exception: " + ex.Message);
+                       MessageBox.Show("Exception: " + ex.Message);
  
                     }
 
 
 
-            }
+                }
 
             if (inprocTankOrd != null && fuelReserve > 0)
             {
                 try
                 {
                     int inprocTankOrdID = inprocTankOrd.TankFuelOrderID;
+
                     await Task.Run(() => TankVehicle(inprocTankOrdID));
+
                 }
                 catch (Exception ex)
                 {
@@ -82,7 +84,7 @@ namespace CORPORATION
 
         }
 
-        public void NextVehicleToTank(int ordID)
+        private static void NextVehicleToTank(int ordID)
         {
             var cdc = new CorporationDataContext();
             try { 
@@ -103,30 +105,30 @@ namespace CORPORATION
 
         }
 
-        public void TankVehicle(int tankOrdId)
+        private static void TankVehicle(int tankOrdId)
         {
             var cdc = new CorporationDataContext();
-            //  var waitingTankOrd = cdc.TankFuelOrders.Where(s => s.Status == "waiting").OrderBy(s => s.Date).FirstOrDefault();
-
-
-           
-           // mut.WaitOne();
 
             var waitingTankOrd = cdc.TankFuelOrders.Where(s => s.TankFuelOrderID == tankOrdId);
 
-
+            
             foreach (TankFuelOrder ord in waitingTankOrd)
             {
                 
-                int tankTime =( ord.TankFuelOrderAmount * 100).GetValueOrDefault();
+                int tankTime =( ord.TankFuelOrderAmount ).GetValueOrDefault()*200;
                 Thread.Sleep(tankTime);
 
                 ord.Status = "tanked";
-
-                cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
+                try
+                {
+                    cdc.SubmitChanges();
+                }
+                catch
+                {
+                }
             }
 
-          //  mut.ReleaseMutex();
+            
         }
 
 
@@ -134,9 +136,6 @@ namespace CORPORATION
         public async void CheckFuelReserve(object source, ElapsedEventArgs e)
         {
              decimal fuelReserve = FuelReserve();
-
-           
-
 
             if (fuelReserve <= FuelReserveLowerLimit  )
             {

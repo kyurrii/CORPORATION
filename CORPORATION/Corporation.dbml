@@ -33,35 +33,6 @@
       <Association Name="ProductOrder_PlantInvoice" Member="ProductOrder" ThisKey="MProdOrderID" OtherKey="MProdOrderID" Type="ProductOrder" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.BankTransactions" Member="BankTransactions">
-    <Type Name="BankTransaction">
-      <Column Name="TransactionID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="PlantInvoiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PaymentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TankFuelInvoiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TransInvoiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Confirmed" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="FuelPaymentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TransPaymentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Payment_BankTransaction" Member="Payment" ThisKey="PaymentID" OtherKey="PaymentID" Type="Payment" IsForeignKey="true" />
-      <Association Name="PlantInvoice_BankTransaction" Member="PlantInvoice" ThisKey="PlantInvoiceID" OtherKey="PlantInviceID" Type="PlantInvoice" IsForeignKey="true" />
-      <Association Name="TankFuelInvoice_BankTransaction" Member="TankFuelInvoice" ThisKey="TankFuelInvoiceID" OtherKey="TankFuelInvoiceID" Type="TankFuelInvoice" IsForeignKey="true" />
-      <Association Name="TransInvoice_BankTransaction" Member="TransInvoice" ThisKey="TransInvoiceID" OtherKey="TransInvoiceID" Type="TransInvoice" IsForeignKey="true" />
-      <Association Name="TankFuelPayment_BankTransaction" Member="TankFuelPayment" ThisKey="FuelPaymentID" OtherKey="FuelPaymentID" Type="TankFuelPayment" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.TankFuelInvoices" Member="TankFuelInvoices">
-    <Type Name="TankFuelInvoice">
-      <Column Name="TankFuelInvoiceID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="TankFuelOrderID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="TankFuelInvoice_BankTransaction" Member="BankTransactions" ThisKey="TankFuelInvoiceID" OtherKey="TankFuelInvoiceID" Type="BankTransaction" />
-      <Association Name="TankFuelOrder_TankFuelInvoice" Member="TankFuelOrder" ThisKey="TankFuelOrderID" OtherKey="TankFuelOrderID" Type="TankFuelOrder" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Trucks" Member="Trucks">
     <Type Name="Truck">
       <Column Name="TruckID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -91,16 +62,6 @@
       <Association Name="TankFuelPayment_BankTransaction" Member="BankTransactions" ThisKey="FuelPaymentID" OtherKey="FuelPaymentID" Type="BankTransaction" />
     </Type>
   </Table>
-  <Table Name="dbo.TankFuelOrders" Member="TankFuelOrders">
-    <Type Name="TankFuelOrder">
-      <Column Name="TankFuelOrderID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="TankFuelOrderAmount" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TankFuelOrderValue" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="TankFuelOrder_TankFuelInvoice" Member="TankFuelInvoices" ThisKey="TankFuelOrderID" OtherKey="TankFuelOrderID" Type="TankFuelInvoice" />
-    </Type>
-  </Table>
   <Table Name="dbo.TransOrders" Member="TransOrders">
     <Type Name="TransOrder">
       <Column Name="TransOrderID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -119,6 +80,45 @@
       <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Truck_TruckTrip" Member="Truck" ThisKey="TruckID" OtherKey="TruckID" Type="Truck" IsForeignKey="true" />
       <Association Name="TransOrder_TruckTrip" Member="TransOrder" ThisKey="TransOrderID" OtherKey="TransOrderID" Type="TransOrder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BankTransactions" Member="BankTransactions">
+    <Type Name="BankTransaction">
+      <Column Name="TransactionID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlantInvoiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PaymentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TankFuelInvoiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TransInvoiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Confirmed" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FuelPaymentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TransPaymentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="PlantInvoice_BankTransaction" Member="PlantInvoice" ThisKey="PlantInvoiceID" OtherKey="PlantInviceID" Type="PlantInvoice" IsForeignKey="true" />
+      <Association Name="Payment_BankTransaction" Member="Payment" ThisKey="PaymentID" OtherKey="PaymentID" Type="Payment" IsForeignKey="true" />
+      <Association Name="TankFuelPayment_BankTransaction" Member="TankFuelPayment" ThisKey="FuelPaymentID" OtherKey="FuelPaymentID" Type="TankFuelPayment" IsForeignKey="true" />
+      <Association Name="TransInvoice_BankTransaction" Member="TransInvoice" ThisKey="TransInvoiceID" OtherKey="TransInvoiceID" Type="TransInvoice" IsForeignKey="true" />
+      <Association Name="TankFuelInvoice_BankTransaction" Member="TankFuelInvoice" ThisKey="TankFuelInvoiceID" OtherKey="TankFuelInvoiceID" Type="TankFuelInvoice" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TankFuelInvoices" Member="TankFuelInvoices">
+    <Type Name="TankFuelInvoice">
+      <Column Name="TankFuelInvoiceID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TankFuelOrderID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="TankFuelInvoice_BankTransaction" Member="BankTransactions" ThisKey="TankFuelInvoiceID" OtherKey="TankFuelInvoiceID" Type="BankTransaction" />
+      <Association Name="TankFuelOrder_TankFuelInvoice" Member="TankFuelOrder" ThisKey="TankFuelOrderID" OtherKey="TankFuelOrderID" Type="TankFuelOrder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TankFuelOrders" Member="TankFuelOrders">
+    <Type Name="TankFuelOrder">
+      <Column Name="TankFuelOrderID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TankFuelOrderAmount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TankFuelOrderValue" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="TankFuelOrder_TankFuelInvoice" Member="TankFuelInvoices" ThisKey="TankFuelOrderID" OtherKey="TankFuelOrderID" Type="TankFuelInvoice" />
     </Type>
   </Table>
 </Database>

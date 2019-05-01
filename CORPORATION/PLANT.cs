@@ -8,15 +8,20 @@ using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Threading;
 using System.Windows.Forms;
+using System.Data.Linq;
+
 
 namespace CORPORATION
 {
     class PLANT
     {
 
+
+        private int prodLinesnomber = 4;
+
         public async void CheckOrdersList(object source, ElapsedEventArgs e)
         {
-            int oldestInProdOrdID;
+          
             var cdc = new CorporationDataContext();
 
             
@@ -26,9 +31,19 @@ namespace CORPORATION
             var oldestInProdOrd = cdc.ProductOrders.Where(s => s.Status == "inproduction").OrderBy(s => s.OrderDate).FirstOrDefault();
             var nomberOrdersInProduction = cdc.ProductOrders.Count(s => s.Status == "inproduction");
 
+            var notShipedProdOrd= cdc.ProductOrders.Where(s => s.Status == "onStock").OrderBy(s => s.OrderDate).FirstOrDefault();
+
+
+            if (notShipedProdOrd!=null)
+            {
+                int ntordID = notShipedProdOrd.MProdOrderID;
+
+                await Task.Run(() => ShipProdOrd(ntordID));
+            }
+
             if (invNotIssProdOrd!=null)
             {
-                await Task.Run( ()=> IssuePlantInvoice(invNotIssProdOrd.MProdOrderID));
+                await Task.Run(()=> IssuePlantInvoice(invNotIssProdOrd.MProdOrderID));
 
                 await Task.Run(() => IssuePayment(invNotIssProdOrd.MProdOrderID));
 
@@ -39,76 +54,58 @@ namespace CORPORATION
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Exception: " + ex.Message);
+                  //  MessageBox.Show("Exception: " + ex.Message);
 
                 }
 
             }
 
 
-            if (nomberOrdersInProduction < 3)
+            if (nomberOrdersInProduction < prodLinesnomber)
             {
                 NextOpenOrderToProduction();
             }
-            try
-            {  
-                 oldestInProdOrdID = oldestInProdOrd.MProdOrderID;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
 
-            }
-            finally
+            if (oldestInProdOrd != null)
             {
 
-                if (oldestInProdOrd != null)
-                {
+                await Task.Run(() => Produce(oldestInProdOrd.MProdOrderID));
 
-                    await Task.Run(() => Produce(oldestInProdOrd.MProdOrderID));
-
-                }
             }
+
 
         }
 
         public async void NextOpenOrderToProduction()
         {
             var cdc = new CorporationDataContext();
-            int oldestOpOrdID;
+      
             var oldestOpenOrd = cdc.ProductOrders.Where(s => s.Status == "open").OrderBy(s => s.OrderDate).FirstOrDefault();
 
-            try
+            if (oldestOpenOrd != null)
             {
-               
-                oldestOpOrdID = oldestOpenOrd.MProdOrderID;
-                var orderToProcess = cdc.ProductOrders.Where(s=>s.MProdOrderID== oldestOpOrdID);
-
-                foreach (ProductOrder ord in orderToProcess)
+                try
                 {
-                    ord.Status = "inproduction";
+                    oldestOpenOrd.Status = "inproduction";
+
+                    cdc.SubmitChanges();
+
+                    await Task.Run(() => Produce(oldestOpenOrd.MProdOrderID));
                 }
+                catch (Exception ex)
+                {
+                    //  MessageBox.Show("Exception: " + ex.Message);
 
-                cdc.SubmitChanges();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
-
-            }
-
-
-
-            if (oldestOpenOrd!=null)
-            {
-                await Task.Run(() => Produce(oldestOpenOrd.MProdOrderID));
+                }
+               
+                
             }
 
+           
         }
 
 
-        public  void Produce(int ordId)
+        public async void Produce(int ordId)
         {
             var cdc = new CorporationDataContext();
             Random rand = new Random();
@@ -118,36 +115,52 @@ namespace CORPORATION
             Thread.Sleep(tpro);
             try
             {
-                var orderInProcess = cdc.ProductOrders.Where(s => s.MProdOrderID == ordId);
-
-                foreach (ProductOrder ord in orderInProcess)
-                {
-                    ord.Status = "onstock";
-
-                    cdc.SubmitChanges();
-                }
+                var orderInProcess = cdc.ProductOrders.Where(s => s.MProdOrderID == ordId).First();
 
 
-                Thread.Sleep(rand.Next(10000));
+                orderInProcess.Status= "onstock";
+                cdc.SubmitChanges();
 
-                foreach (ProductOrder ord in orderInProcess)
-                {
+                Thread.Sleep(rand.Next(8000));
 
-                    ord.Status = "shiped";
-                    cdc.SubmitChanges();
-                }
+                await Task.Run(()=> ShipProdOrd(ordId));
+
+
+              //  orderInProcess.Status = "shiped";
+                //cdc.SubmitChanges();
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+               // MessageBox.Show("Exception: " + ex.Message);
 
             }
 
 
         }
 
-        public void IssuePlantInvoice(int ordId)
+        private void ShipProdOrd(int ordId)
+        {
+            var cdc = new CorporationDataContext();
+            try
+            {
+                var orderInProcess = cdc.ProductOrders.Where(s => s.MProdOrderID == ordId).First();
+
+                orderInProcess.Status = "shiped";
+                cdc.SubmitChanges();
+
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show("Exception: " + ex.Message);
+
+            }
+
+
+
+        }
+
+        private void IssuePlantInvoice(int ordId)
         {
             var cdc = new CorporationDataContext();
 
@@ -186,7 +199,7 @@ namespace CORPORATION
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+              //  MessageBox.Show("Exception: " + ex.Message);
 
             }
 
@@ -238,11 +251,38 @@ namespace CORPORATION
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+               // MessageBox.Show("Exception: " + ex.Message);
 
             }
 
         }
+       
+
+        public int OpenProdOrderQty()
+        {
+            var cdc = new CorporationDataContext();
+            int openOrdNum = cdc.ProductOrders.Count(s => s.Status == "open");
+            return openOrdNum;
+        }
+
+        public int InProdOrdQty()
+        {
+            var cdc = new CorporationDataContext();
+            int inprodOrdNum = cdc.ProductOrders.Count(s => s.Status == "inproduction");
+            return inprodOrdNum;
+        }
+             
+        public int OnstockOrdQty()
+        {
+            var cdc = new CorporationDataContext();
+            int onStock = cdc.ProductOrders.Count(s => s.Status == "onstock");
+            return onStock;
+        }
+       
+
+
+
+
 
 
     }
