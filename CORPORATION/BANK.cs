@@ -62,13 +62,13 @@ namespace CORPORATION
                     {
                         inv.Status = "paid";
                     }
-                    cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
+                    cdc.SubmitChanges();
                 }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+               // MessageBox.Show("Exception: " + ex.Message);
 
             }
         }
@@ -111,7 +111,7 @@ namespace CORPORATION
                         {
                             pay.Status = "paid";
                         }
-                        cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
+                        cdc.SubmitChanges();
 
                     }
 
@@ -120,7 +120,7 @@ namespace CORPORATION
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+              //  MessageBox.Show("Exception: " + ex.Message);
 
             }
 
@@ -168,7 +168,7 @@ namespace CORPORATION
 
                }
                    );
-                cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
+                cdc.SubmitChanges();
 
             }
             catch (Exception ex)
@@ -188,6 +188,14 @@ namespace CORPORATION
             decimal PlantInput = 0;
             decimal FuelInput = 0;
             decimal TransInput = 0;
+            decimal PlantPaymentsValue = 0;
+            decimal PlantInvoicedValue = 0;
+            decimal FuelSoldValue = 0;
+            decimal FuelPurchasedValue = 0;
+            decimal TransSoldValue = 0;
+            decimal TransPaymentsValue = 0;
+            decimal InvoicedTotalValue = 0;
+            decimal PaymentsTotalValue = 0;
 
             var cdc = new CorporationDataContext();
 
@@ -218,23 +226,29 @@ namespace CORPORATION
                                        PaymentStatus = pay.Status
                                    };
 
+                if (PaymentsList != null)
+                {
+                    PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
+                }
+
+                if (PlantInvoicesList != null)
+                {
+                    PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
+                }
 
 
-                decimal PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
+                 
 
+                 FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
 
-                decimal PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
+                 FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
 
-                decimal FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
+                 TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s => s.Status == "delivered").Sum(s => s.OrderValue));
 
-                decimal FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
+                 TransPaymentsValue = TransSoldValue * 85 / 100;
 
-                decimal TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s => s.Status == "delivered").Sum(s => s.OrderValue));
-
-                decimal TransPaymentsValue = TransSoldValue * 85 / 100;
-
-                decimal InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
-                decimal PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue + TransPaymentsValue;
+                 InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
+                 PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue + TransPaymentsValue;
            
          
            
@@ -251,7 +265,7 @@ namespace CORPORATION
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+               // MessageBox.Show("Exception: " + ex.Message);
 
             }
 

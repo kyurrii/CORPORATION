@@ -70,6 +70,8 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.panel1.SuspendLayout();
@@ -195,6 +197,8 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.label25);
             this.panel3.Controls.Add(this.label24);
             this.panel3.Controls.Add(this.label23);
@@ -212,7 +216,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(358, 154);
+            this.label25.Location = new System.Drawing.Point(358, 187);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(60, 20);
             this.label25.TabIndex = 30;
@@ -221,7 +225,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(24, 154);
+            this.label24.Location = new System.Drawing.Point(22, 187);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(144, 20);
             this.label24.TabIndex = 29;
@@ -484,6 +488,24 @@
             this.label40.TabIndex = 7;
             this.label40.Text = "Open Orders Q-ty";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(25, 155);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(156, 20);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "Orders Canceled Qty";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(358, 155);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(51, 20);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "label5";
+            // 
             // MainMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -558,5 +580,7 @@
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }

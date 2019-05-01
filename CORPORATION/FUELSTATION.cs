@@ -15,21 +15,22 @@ namespace CORPORATION
 
         decimal FuelReserveLowerLimit = 2000;
         decimal FuelReserveUpperLimit = 10000;
-        decimal fuelPrice = 25;
+        decimal fuelPrice = 10;
         int FuelStationPostsNumber = 8;
         private static Mutex mut = new Mutex();
 
-        public decimal fuelReserve = FuelReserve();
+      //  public decimal fuelReserve = FuelReserve();
 
 
 
 
         public async void CheckTankOrders(object source, ElapsedEventArgs e)
         {
+            
 
-           
-            var cdc = new CorporationDataContext();
 
+        var cdc = new CorporationDataContext();
+            int tankAmount = 0;
 
             var nomberWaitTankOrd = cdc.TankFuelOrders.Count(s => s.Status == "waiting");
             var nomberProcessTankOrd = cdc.TankFuelOrders.Count(s => s.Status == "inprocess");
@@ -38,11 +39,17 @@ namespace CORPORATION
             var  waitingTankOrd = cdc.TankFuelOrders.Where(s => s.Status == "waiting").OrderBy(s => s.Date).FirstOrDefault();
             var inprocTankOrd= cdc.TankFuelOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
 
-            
-                
+            if (waitingTankOrd != null)
+            {
+                 tankAmount = (int)waitingTankOrd.TankFuelOrderAmount;
+            }
 
+                if (FuelReserve()<= FuelReserveLowerLimit)
+                {
+                     await Task.Run(() => FuelPurchase());
+                }
 
-                if (nomberProcessTankOrd < FuelStationPostsNumber && waitingTankOrd != null && fuelReserve>0)
+                if (nomberProcessTankOrd < FuelStationPostsNumber && waitingTankOrd != null && FuelReserve()>=tankAmount)
                 {
                     try
                     {
@@ -56,15 +63,29 @@ namespace CORPORATION
                      }
                     catch (Exception ex)
                     {
-                       MessageBox.Show("Exception: " + ex.Message);
+                      // MessageBox.Show("Exception: " + ex.Message);
  
                     }
 
 
 
                 }
+                else if ( waitingTankOrd != null && FuelReserve() < tankAmount)
+                {
 
-            if (inprocTankOrd != null && fuelReserve > 0)
+                  Thread.Sleep(2000);
+                   try
+                   {
+                       waitingTankOrd.Status = "canceled";
+                       cdc.SubmitChanges();
+                   }
+                   catch
+                   {
+
+                   }
+                }
+
+            if (inprocTankOrd != null && FuelReserve() > 0)
             {
                 try
                 {
@@ -75,7 +96,7 @@ namespace CORPORATION
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Exception: " + ex.Message);
+                  //  MessageBox.Show("Exception: " + ex.Message);
 
                 }
 
@@ -91,15 +112,15 @@ namespace CORPORATION
                   var waitingTankOrd = cdc.TankFuelOrders.Where(s => s.TankFuelOrderID == ordID);
 
                    foreach(TankFuelOrder fuelOrder in waitingTankOrd)
-                    {
+                   {
                       fuelOrder.Status = "inprocess";
-              
-                    }
                      cdc.SubmitChanges();
+                   }
+                     
                  }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message);
+              //  MessageBox.Show("Exception: " + ex.Message);
 
             }
 
@@ -133,24 +154,13 @@ namespace CORPORATION
 
 
 
-        public async void CheckFuelReserve(object source, ElapsedEventArgs e)
-        {
-             decimal fuelReserve = FuelReserve();
+       
 
-            if (fuelReserve <= FuelReserveLowerLimit  )
-            {
-
-               await Task.Run(()=>  FuelPurchase());
-
-            }
-
-        }
-
-        public static decimal FuelReserve()
+        public  decimal FuelReserve()
         {
            decimal fuelreserve = 0;
-            decimal FuelSoldAmount;
-            decimal TotalFuelPurchasedAmount;
+            decimal FuelSoldAmount=0;
+            decimal TotalFuelPurchasedAmount=0;
 
             var cdc = new CorporationDataContext();
             var TankFuelInvoicesList = cdc.TankFuelInvoices.Join(cdc.TankFuelOrders,
@@ -194,19 +204,19 @@ namespace CORPORATION
 
         public void FuelPurchase()
         {
-            decimal fr = fuelReserve;
-            decimal amountToPurchase = FuelReserveUpperLimit - fr;
+            decimal fr = FuelReserve();
+            decimal amountToPurchase = (FuelReserveUpperLimit - fr);
 
             var cdc = new CorporationDataContext();
             BANK bank = new BANK();
 
-            if (bank.balance>= amountToPurchase)
+            if (bank.balance>= amountToPurchase*fuelPrice)
             {
 
            
 
-            int lastItemID;
-            int nextItemID;
+            int lastItemID=0;
+            int nextItemID=0;
             int itemsCount = 0;
 
             itemsCount = cdc.TankFuelPayments.Count();
@@ -251,7 +261,7 @@ namespace CORPORATION
 
 
 
-        public int nomberWaitTankOrd()
+        public int NomberWaitTankOrd()
         { 
             
             var cdc = new CorporationDataContext();
@@ -259,7 +269,7 @@ namespace CORPORATION
             return nomberWaitTankOrd;
         }
        
-        public int nomberProcessTankOrd()
+        public int NomberProcessTankOrd()
         {
             var cdc = new CorporationDataContext();
             int nomberProcessTankOrd = cdc.TankFuelOrders.Count(s => s.Status == "inprocess");
@@ -267,7 +277,7 @@ namespace CORPORATION
         }
 
 
-        public decimal momentalTankFuelAmount()
+        public decimal MomentalTankFuelAmount()
         {
             var cdc = new CorporationDataContext();
             decimal momentalTankFuelAmount =Convert.ToDecimal( cdc.TankFuelOrders.Where(s => s.Status == "inprocess").Sum(s => s.TankFuelOrderAmount));
@@ -276,7 +286,12 @@ namespace CORPORATION
         }
 
 
-       
+       public int TankfuelordersCancelledQty()
+        {
+            var cdc = new CorporationDataContext();
+            int nomberProcessTankOrd = cdc.TankFuelOrders.Count(s => s.Status == "canceled");
+            return nomberProcessTankOrd;
+        }
 
 
 

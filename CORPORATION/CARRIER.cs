@@ -30,7 +30,7 @@ namespace CORPORATION
             
 
 
-            if ( oldestOpenTransOrd != null && nextFreeTruck != null && inprocTransOrdNomber<= plantruckqty)
+            if ( oldestOpenTransOrd != null && nextFreeTruck != null&& inprocTransOrdNomber < plantruckqty)
             {
                 int trOrdID = oldestOpenTransOrd.TransOrderID;
                 int truckID = nextFreeTruck.TruckID;
@@ -54,7 +54,7 @@ namespace CORPORATION
                 try
                 {
                     int ordid = oldestInprocessTransOrd.TransOrderID;
-                    int onTripTruckID = (int)cdc.TruckTrips.Where(s => s.TransOrderID == oldestInprocessTransOrd.TransOrderID).Select(m => m.TruckID).FirstOrDefault();
+                    int onTripTruckID = (int)cdc.TruckTrips.Where(s => s.TransOrderID == ordid).Select(m => m.TruckID).FirstOrDefault();
                     var onTripTruck = cdc.Trucks.Where(s => s.TruckID == onTripTruckID && s.Status == "onTrip").FirstOrDefault();
 
                     await Task.Run(() => Deliver(ordid, onTripTruckID));
@@ -100,21 +100,29 @@ namespace CORPORATION
                 //MessageBox.Show("Exception: " + ex.Message);
 
             }
-
-            itemsCount = cdc.TruckTrips.Count();
-
-            if (itemsCount == 0)
+            try
             {
-                nextItemID = 770001;
-            }
-            else
-            {
-                var containsTransOrder = cdc.TruckTrips.Where(s => s.TransOrderID == trordID).First();
+               //var containsTransOrder = cdc.TruckTrips.Where(s => s.TransOrderID == trordID).First();
+               
 
-                if (containsTransOrder==null)
+                    itemsCount = cdc.TruckTrips.Count();
+
+                    if (itemsCount == 0)
+                    {
+                        nextItemID = 770001;
+                    }
+                    else
+                    {
+
+                        lastItemID = cdc.TruckTrips.OrderByDescending(s => s.TruckTripID).Select(s => s.TruckTripID).First();
+                        nextItemID = lastItemID + 1;
+
+                    }
+
+                Boolean containsTransOrder = cdc.TruckTrips.Select(s => s.TransOrderID).Contains(trordID);
+
+                if (containsTransOrder == false)
                 {
-                    lastItemID = cdc.TruckTrips.OrderByDescending(s => s.TruckTripID).Select(s => s.TruckTripID).First();
-                    nextItemID = lastItemID + 1;
 
                     try
                     {
@@ -139,17 +147,19 @@ namespace CORPORATION
 
 
                     }
-                
+
+
                 }
 
-            
-               
 
             }
+            catch
+            {
+
+            }
+
            
-
-
-
+            
 
         }
 
@@ -308,8 +318,9 @@ namespace CORPORATION
 
         public int FreeTrucksCount()
         {
-            var cdc = new CorporationDataContext();
-            int freeTrucksnomber = cdc.Trucks.Where(s => s.Status == "free").Count();
+            int freeTrucksnomber = plantruckqty - InProcessTransOrdersQty();
+            //var cdc = new CorporationDataContext();
+            // int freeTrucksnomber = cdc.Trucks.Where(s => s.Status == "free").Count();
             return freeTrucksnomber;
         }
 

@@ -27,6 +27,11 @@ namespace CORPORATION
         System.Timers.Timer fuelstationTimer = new System.Timers.Timer();
         System.Timers.Timer carrierTimer = new System.Timers.Timer();
 
+        System.Timers.Timer plantMarketTimer = new System.Timers.Timer();
+        System.Timers.Timer transMarketTimer = new System.Timers.Timer();
+        System.Timers.Timer fuelMarketTimer = new System.Timers.Timer();
+
+
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -38,17 +43,13 @@ namespace CORPORATION
             CARRIER carrier = new CARRIER();
 
 
-            /* Random random = new Random();
+            
 
-             int  marPeriod = random.Next(10000);
-             int  plantPeriod = random.Next(2000);
-             int monitorPeriod = random.Next(3000);   */
-
-            int marPeriod = 8000;
-            int plantPeriod = 5000;
-            int monitorPeriod = 2000;
-            int fuelstPeriod = 4000;
-            int carrierPeriod = 4000;
+            int marPeriod = 30000;
+            int plantPeriod = 3000;
+            int monitorPeriod = 3000;
+            int fuelstPeriod = 3000;
+            int carrierPeriod = 3000;
 
 
             marketTimer.Interval = marPeriod;
@@ -57,9 +58,8 @@ namespace CORPORATION
             fuelstationTimer.Interval = fuelstPeriod;
             carrierTimer.Interval = carrierPeriod;
 
-            marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
-            marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
-            marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
+             marketTimer.Elapsed += new ElapsedEventHandler(MarketActivate);
+      
 
             mainMonitorTimer.Elapsed += new ElapsedEventHandler(MainMonitorRefresh);
             mainMonitorTimer.Elapsed += new ElapsedEventHandler(bank.checkInvoices);
@@ -67,7 +67,7 @@ namespace CORPORATION
 
             plantTimer.Elapsed += new ElapsedEventHandler(plant.CheckOrdersList);
 
-            fuelstationTimer.Elapsed += new ElapsedEventHandler(fuelstation.CheckFuelReserve);
+      
             fuelstationTimer.Elapsed += new ElapsedEventHandler(fuelstation.CheckTankOrders);
 
             carrierTimer.Elapsed += new ElapsedEventHandler(carrier.CheckTrucks);
@@ -79,6 +79,32 @@ namespace CORPORATION
             mainMonitorTimer.Start();
             fuelstationTimer.Start();
             carrierTimer.Start();
+
+        }
+
+        private void MarketActivate(object source, ElapsedEventArgs e)
+        {
+            Random random = new Random();
+            MARKET mar = new MARKET();
+
+            int marPlantT = random.Next(8000,20000);
+            int marTransT = random.Next(8000, 15000);
+            int marFuelT = random.Next(8000, 15000);
+
+
+            plantMarketTimer.Interval = marPlantT;
+            transMarketTimer.Interval = marTransT;
+            fuelMarketTimer.Interval = marFuelT;
+
+            plantMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
+            transMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
+            fuelMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
+
+
+            plantMarketTimer.Start();
+            transMarketTimer.Start();
+            fuelMarketTimer.Start();
+
 
         }
 
@@ -97,14 +123,10 @@ namespace CORPORATION
 
             var cdc = new CorporationDataContext();
 
-           
-
-    
 
             Action textDisplayAct = () => {
                 dataGridView1.DataSource = cdc.TransOrders;
-              //  dataGridView2.DataSource = PlantInvoicesList;
-              //  dataGridView3.DataSource = PaymentsList;
+             
                 dataGridView4.DataSource = cdc.Trucks;
 
 
@@ -115,14 +137,16 @@ namespace CORPORATION
                
 
                 label16.Text = bank.balance.ToString("N0");
-                label28.Text = bank.PlantInput.ToString("N");
-                label29.Text = bank.FuelInput.ToString("N");
-                label11.Text = bank.TransInput.ToString("N");
+                label28.Text = bank.PlantInput.ToString("N0");
+                label29.Text = bank.FuelInput.ToString("N0");
+                label11.Text = bank.TransInput.ToString("N0");
 
-                label19.Text = tfstation.nomberWaitTankOrd().ToString();
-                label21.Text = tfstation.nomberProcessTankOrd().ToString();
-                label23.Text = tfstation.momentalTankFuelAmount().ToString();
-                label25.Text = tfstation.fuelReserve.ToString();
+                label19.Text = tfstation.NomberWaitTankOrd().ToString();
+                label21.Text = tfstation.NomberProcessTankOrd().ToString();
+                label23.Text = tfstation.MomentalTankFuelAmount().ToString();
+                label25.Text = tfstation.FuelReserve().ToString();
+                label5.Text = tfstation.TankfuelordersCancelledQty().ToString();
+
                 label32.Text = carrier.TrucksCount().ToString();
                 label38.Text = carrier.OpenTransOrdersQty().ToString();
                 label34.Text = carrier.InProcessTransOrdersQty().ToString();
@@ -153,6 +177,10 @@ namespace CORPORATION
             mainMonitorTimer.Stop();
             fuelstationTimer.Stop();
             carrierTimer.Stop();
+
+            plantMarketTimer.Stop();
+            transMarketTimer.Stop();
+            fuelMarketTimer.Stop();
         }
     }
 }
