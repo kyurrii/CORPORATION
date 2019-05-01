@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Timer = System.Windows.Forms.Timer;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace CORPORATION
 {
@@ -13,9 +14,9 @@ namespace CORPORATION
     {
         public decimal balance = BalanceTuple().Item1;
 
-        public decimal PlantInput = BalanceTuple().Item2*100;
-        public decimal FuelInput = BalanceTuple().Item3*100;
-        public decimal TransInput = BalanceTuple().Item4*100;
+        public decimal PlantInput = BalanceTuple().Item2;
+        public decimal FuelInput = BalanceTuple().Item3;
+        public decimal TransInput = BalanceTuple().Item4;
 
 
         public async void checkInvoices(object source, ElapsedEventArgs e)
@@ -64,8 +65,9 @@ namespace CORPORATION
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
         }
@@ -97,7 +99,7 @@ namespace CORPORATION
 
                     decimal payamt = Convert.ToDecimal(oldestPendPayment.PaymentAmount);
 
-                    decimal currBalance = Balance();
+                    decimal currBalance = balance;
                     
                     if(currBalance - payamt >= 0)
                     {
@@ -115,8 +117,9 @@ namespace CORPORATION
                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
 
@@ -165,61 +168,14 @@ namespace CORPORATION
                 cdc.SubmitChanges();
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
         }
 
-        public decimal Balance()
-        {
-            decimal balance = 0;
-
-            var cdc = new CorporationDataContext();
-            var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
-                                   inv => inv.MProdOrderID,
-                                   ord => ord.MProdOrderID,
-                                   (inv, ord) => new
-                                   {
-                                       PlantInvID = inv.PlantInviceID,
-                                       InvoiceValue = ord.ProdOrderValue,
-                                       InvoiceStatus = inv.Status,
-                                       PlantInvDate = ord.OrderDate,
-                                       PlantInvPayTerm = ord.PaymentTerm
-                                   }).ToList();
-
-            var PaymentsList = cdc.Payments.Join(cdc.ProductOrders,
-                                 pay => pay.MProdOrderID,
-                                 ord => ord.MProdOrderID,
-                                 (pay, ord) => new
-                                 {
-                                     PaymID = pay.PaymentID,
-                                     PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
-                                     PaymentStatus = pay.Status
-                                 }).ToList();
-
-            decimal PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
-
-
-            decimal PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
-
-            decimal FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
-
-            decimal FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
-
-            decimal InvoicedTotalValue= PlantInvoicedValue+ FuelSoldValue;
-            decimal PaymentsTotalValue= PlantPaymentsValue + FuelPurchasedValue;
-
-
-
-            balance = InvoicedTotalValue - PaymentsTotalValue;
-
-            if (balance > 0) { 
-                decimal PlantInput = (PlantInvoicedValue- PlantPaymentsValue)/ balance;
-                decimal FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance;
-            }
-            return balance;
-        }
+       
 
 
        public  static Tuple <decimal, decimal, decimal,decimal> BalanceTuple()
@@ -231,55 +187,65 @@ namespace CORPORATION
             decimal TransInput = 0;
 
             var cdc = new CorporationDataContext();
-            var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
-                                   inv => inv.MProdOrderID,
-                                   ord => ord.MProdOrderID,
-                                   (inv, ord) => new
+
+            try
+            {
+                var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
+                                       inv => inv.MProdOrderID,
+                                       ord => ord.MProdOrderID,
+                                       (inv, ord) => new
+                                       {
+                                           PlantInvID = inv.PlantInviceID,
+                                           InvoiceValue = ord.ProdOrderValue,
+                                           InvoiceStatus = inv.Status,
+                                           PlantInvDate = ord.OrderDate,
+                                           PlantInvPayTerm = ord.PaymentTerm
+                                       }).ToList();
+
+
+
+                var PaymentsList = from pay in cdc.Payments
+                                   where pay.Status == "paid"
+                                   join ord in cdc.ProductOrders
+                                   on pay.MProdOrderID equals ord.MProdOrderID
+                                   select new
                                    {
-                                       PlantInvID = inv.PlantInviceID,
-                                       InvoiceValue = ord.ProdOrderValue,
-                                       InvoiceStatus = inv.Status,
-                                       PlantInvDate = ord.OrderDate,
-                                       PlantInvPayTerm = ord.PaymentTerm
-                                   }).ToList();
-
-            var PaymentsList = cdc.Payments.Join(cdc.ProductOrders,
-                                 pay => pay.MProdOrderID,
-                                 ord => ord.MProdOrderID,
-                                 (pay, ord) => new
-                                 {
-                                     PaymID = pay.PaymentID,
-                                     PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
-                                     PaymentStatus = pay.Status
-                                 }).ToList();
-
-            decimal PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
+                                       PaymID = pay.PaymentID,
+                                       PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
+                                       PaymentStatus = pay.Status
+                                   };
 
 
-            decimal PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
 
-            decimal FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
+                decimal PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
 
-            decimal FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
 
-            decimal TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s=>s.Status=="delivered").Sum(s=>s.OrderValue));
+                decimal PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
 
-            decimal TransPaymentsValue = TransSoldValue * 85/100;
+                decimal FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
 
-            decimal InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
-            decimal PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue+ TransPaymentsValue;
+                decimal FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
 
+                decimal TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s => s.Status == "delivered").Sum(s => s.OrderValue));
+
+                decimal TransPaymentsValue = TransSoldValue * 85 / 100;
+
+                decimal InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
+                decimal PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue + TransPaymentsValue;
+           
+         
            
 
-            balance = InvoicedTotalValue - PaymentsTotalValue;
+                   balance = InvoicedTotalValue - PaymentsTotalValue;
 
-            try { 
-                  FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance;
-                  PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance;
-                TransInput = (TransSoldValue - TransPaymentsValue) / balance;
+           
+                   FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance*100;
+                   PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance*100;
+                   TransInput = (TransSoldValue - TransPaymentsValue) / balance*100;
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
 

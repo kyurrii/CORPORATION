@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace CORPORATION
 {
@@ -36,8 +37,9 @@ namespace CORPORATION
                      invNotIssProdOrd.InvoiceIssued = "yes";
                      cdc.SubmitChanges();
                 }
-                catch
+                catch (Exception ex)
                 {
+                    MessageBox.Show("Exception: " + ex.Message);
 
                 }
 
@@ -52,7 +54,11 @@ namespace CORPORATION
             {  
                  oldestInProdOrdID = oldestInProdOrd.MProdOrderID;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+
+            }
             finally
             {
 
@@ -86,14 +92,15 @@ namespace CORPORATION
                 cdc.SubmitChanges();
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
 
-          
 
-          if (oldestOpenOrd!=null)
+
+            if (oldestOpenOrd!=null)
             {
                 await Task.Run(() => Produce(oldestOpenOrd.MProdOrderID));
             }
@@ -131,11 +138,12 @@ namespace CORPORATION
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
-           
+
 
         }
 
@@ -176,19 +184,23 @@ namespace CORPORATION
 
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
 
 
-            
+
         }
 
 
         public void IssuePayment(int ordId)
         {
             var cdc = new CorporationDataContext();
+            BANK bank = new BANK();
+
+           decimal balance = bank.balance;
 
 
             int lastItemID;
@@ -224,8 +236,9 @@ namespace CORPORATION
                 cdc.SubmitChanges();
 
             }
-                    catch (Exception e)
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
 

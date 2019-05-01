@@ -60,6 +60,8 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
@@ -70,8 +72,6 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.panel1.SuspendLayout();
@@ -83,7 +83,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(580, 292);
+            this.dataGridView1.Location = new System.Drawing.Point(580, 276);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.Size = new System.Drawing.Size(598, 158);
@@ -391,6 +391,24 @@
             this.panel2.Size = new System.Drawing.Size(447, 185);
             this.panel2.TabIndex = 9;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(358, 156);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(60, 20);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "label11";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(25, 156);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(258, 20);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "Transport Company Input Share, %";
+            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.label32);
@@ -487,24 +505,6 @@
             this.label40.Size = new System.Drawing.Size(133, 20);
             this.label40.TabIndex = 7;
             this.label40.Text = "Open Orders Q-ty";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(25, 156);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(258, 20);
-            this.label10.TabIndex = 27;
-            this.label10.Text = "Transport Company Input Share, %";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(358, 156);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(60, 20);
-            this.label11.TabIndex = 28;
-            this.label11.Text = "label11";
             // 
             // MainMonitor
             // 

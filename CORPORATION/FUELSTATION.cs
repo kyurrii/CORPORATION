@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 using System.Threading;
 using System.Timers;
 using System.Data.Linq;
@@ -54,14 +54,15 @@ namespace CORPORATION
                         await Task.Run(() => TankVehicle(oldestTankOrdID));
 
                      }
-                   catch
-                   {
-
+                    catch (Exception ex)
+                    {
+                    MessageBox.Show("Exception: " + ex.Message);
+ 
                     }
-                
 
 
-                }
+
+            }
 
             if (inprocTankOrd != null && fuelReserve > 0)
             {
@@ -70,8 +71,9 @@ namespace CORPORATION
                     int inprocTankOrdID = inprocTankOrd.TankFuelOrderID;
                     await Task.Run(() => TankVehicle(inprocTankOrdID));
                 }
-                catch
+                catch (Exception ex)
                 {
+                    MessageBox.Show("Exception: " + ex.Message);
 
                 }
 
@@ -93,8 +95,9 @@ namespace CORPORATION
                     }
                      cdc.SubmitChanges();
                  }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show("Exception: " + ex.Message);
 
             }
 
@@ -238,10 +241,11 @@ namespace CORPORATION
                 cdc.SubmitChanges();
 
             }
-            catch (Exception e)
-            {
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Exception: " + ex.Message);
 
-            }
+                }
             }
 
         }

@@ -141,15 +141,15 @@ namespace CORPORATION
 
 
                 label3.Text = openOrdNum.ToString();
-                label5.Text = openOrderTotValue.ToString();
+                label5.Text = openOrderTotValue.ToString("N2");
                 label7.Text = inprodOrdNum.ToString();
                 label9.Text = onStock.ToString();
                
 
-                label16.Text = bank.balance.ToString();
-                label28.Text = bank.PlantInput.ToString();
-                label29.Text = bank.FuelInput.ToString();
-                label11.Text = bank.TransInput.ToString();
+                label16.Text = bank.balance.ToString("N2");
+                label28.Text = bank.PlantInput.ToString("N");
+                label29.Text = bank.FuelInput.ToString("N");
+                label11.Text = bank.TransInput.ToString("N");
 
                 label19.Text = tfstation.nomberWaitTankOrd().ToString();
                 label21.Text = tfstation.nomberProcessTankOrd().ToString();
