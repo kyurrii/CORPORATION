@@ -120,15 +120,17 @@ namespace CORPORATION
             FUELSTATION tfstation = new FUELSTATION();
             CARRIER carrier = new CARRIER();
             PLANT plant = new PLANT();
+            
 
             var cdc = new CorporationDataContext();
 
 
             Action textDisplayAct = () => {
-                dataGridView1.DataSource = cdc.TransOrders;
-             
-                dataGridView4.DataSource = cdc.Trucks;
+              //  dataGridView1.DataSource = cdc.TransOrders;
+                 
+              //  dataGridView4.DataSource = cdc.Trucks;
 
+                
 
                 label3.Text = plant.OpenProdOrderQty().ToString();
               
@@ -147,11 +149,11 @@ namespace CORPORATION
                 label25.Text = tfstation.FuelReserve().ToString();
                 label5.Text = tfstation.TankfuelordersCancelledQty().ToString();
 
-                label32.Text = carrier.TrucksCount().ToString();
+             
                 label38.Text = carrier.OpenTransOrdersQty().ToString();
                 label34.Text = carrier.InProcessTransOrdersQty().ToString();
                 label36.Text = carrier.FreeTrucksCount().ToString();
-                label32.Text = carrier.OnServiceTruckQty().ToString();
+              
 
 
 
@@ -182,5 +184,7 @@ namespace CORPORATION
             transMarketTimer.Stop();
             fuelMarketTimer.Stop();
         }
+
+       
     }
 }
