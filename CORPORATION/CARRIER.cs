@@ -19,12 +19,12 @@ namespace CORPORATION
 
         public async void NextTransOrder(object source, ElapsedEventArgs e)
         {
-            var cdc = new CorporationDataContext();
-
-            var oldestOpenTransOrd = cdc.TransOrders.Where(s => s.Status == "open").OrderBy(s => s.Date).FirstOrDefault();
+                var cdc = new CorporationDataContext();
+ 
+                var oldestOpenTransOrd = cdc.TransOrders.Where(s => s.Status == "open").OrderBy(s => s.Date).FirstOrDefault();
                 var nextFreeTruck = cdc.Trucks.Where(s => s.Status == "free").OrderBy(s => s.TruckID).FirstOrDefault();
                 var oldestInprocessTransOrd = cdc.TransOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
-            int inprocTransOrdNomber = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
+                int inprocTransOrdNomber = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
 
 
             
@@ -77,7 +77,7 @@ namespace CORPORATION
             int nextItemID=0;
             int itemsCount = 0;
 
-              var cdc = new CorporationDataContext();
+            var cdc = new CorporationDataContext();
 
             var nextTransOrder = cdc.TransOrders.Where(s => s.TransOrderID == trordID).FirstOrDefault();
           
@@ -102,8 +102,6 @@ namespace CORPORATION
             }
             try
             {
-               //var containsTransOrder = cdc.TruckTrips.Where(s => s.TransOrderID == trordID).First();
-               
 
                     itemsCount = cdc.TruckTrips.Count();
 
@@ -205,52 +203,7 @@ namespace CORPORATION
 
 
         }
-      /*
-        private void TechServiseTruck(int trID)
-        {
-
-          Random random = new Random();
-
-          int ff = random.Next(10);
-
-          if (ff >= 7)
-          {
-            var firstTruck = cdc.Trucks.Where(s => s.Status == "free").OrderBy(s => s.TruckID).FirstOrDefault();
-
-                try
-                {
-                  firstTruck.Status = "onTechService";
-                  cdc.SubmitChanges();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Exception: " + ex.Message);
-
-                }
-
-                int firstTruckID = firstTruck.TruckID;
-
-        
-
-                var servTruck = cdc.Trucks.Where(s => s.TruckID == trID).FirstOrDefault();
-
-                Thread.Sleep(10000);
-
-
-               try
-               {
-                servTruck.Status = "free";
-                cdc.SubmitChanges();
-
-               }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Exception: " + ex.Message);
-
-                }
-          }
-          
-        }    */
+     
 
 
 

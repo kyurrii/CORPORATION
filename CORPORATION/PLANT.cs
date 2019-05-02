@@ -23,14 +23,10 @@ namespace CORPORATION
         {
           
             var cdc = new CorporationDataContext();
-
-            
             var nomberInvNotIssProdOrd = cdc.ProductOrders.Count(s => s.Status == "shiped" && s.InvoiceIssued == "no");
             var invNotIssProdOrd = cdc.ProductOrders.Where(s => s.Status == "shiped" && s.InvoiceIssued == "no").OrderBy(s => s.OrderDate).FirstOrDefault();
-
             var oldestInProdOrd = cdc.ProductOrders.Where(s => s.Status == "inproduction").OrderBy(s => s.OrderDate).FirstOrDefault();
             var nomberOrdersInProduction = cdc.ProductOrders.Count(s => s.Status == "inproduction");
-
             var notShipedProdOrd= cdc.ProductOrders.Where(s => s.Status == "onStock").OrderBy(s => s.OrderDate).FirstOrDefault();
 
 

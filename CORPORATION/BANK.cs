@@ -14,7 +14,6 @@ namespace CORPORATION
     class BANK
     {
         public decimal balance = BalanceTuple().Item1;
-
         public decimal PlantInput = BalanceTuple().Item2;
         public decimal FuelInput = BalanceTuple().Item3;
         public decimal TransInput = BalanceTuple().Item4;
@@ -23,8 +22,6 @@ namespace CORPORATION
         public async void checkInvoices(object source, ElapsedEventArgs e)
         {
             var cdc = new CorporationDataContext();
-           
-
 
             try
             {

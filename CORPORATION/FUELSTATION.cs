@@ -17,17 +17,11 @@ namespace CORPORATION
         decimal FuelReserveUpperLimit = 10000;
         decimal fuelPrice = 10;
         int FuelStationPostsNumber = 8;
-        private static Mutex mut = new Mutex();
-
-      //  public decimal fuelReserve = FuelReserve();
-
-
-
+    
 
         public async void CheckTankOrders(object source, ElapsedEventArgs e)
         {
             
-
 
         var cdc = new CorporationDataContext();
             int tankAmount = 0;
@@ -154,8 +148,6 @@ namespace CORPORATION
 
 
 
-       
-
         public  decimal FuelReserve()
         {
            decimal fuelreserve = 0;
@@ -261,7 +253,7 @@ namespace CORPORATION
 
 
 
-        public int NomberWaitTankOrd()
+        public  int NomberWaitTankOrd()
         { 
             
             var cdc = new CorporationDataContext();
@@ -277,7 +269,7 @@ namespace CORPORATION
         }
 
 
-        public decimal MomentalTankFuelAmount()
+        public  decimal MomentalTankFuelAmount()
         {
             var cdc = new CorporationDataContext();
             decimal momentalTankFuelAmount =Convert.ToDecimal( cdc.TankFuelOrders.Where(s => s.Status == "inprocess").Sum(s => s.TankFuelOrderAmount));
@@ -286,7 +278,7 @@ namespace CORPORATION
         }
 
 
-       public int TankfuelordersCancelledQty()
+       public  int TankfuelordersCancelledQty()
         {
             var cdc = new CorporationDataContext();
             int nomberProcessTankOrd = cdc.TankFuelOrders.Count(s => s.Status == "canceled");

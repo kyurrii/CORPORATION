@@ -63,8 +63,8 @@ namespace CORPORATION
 
         public void PlaceTankFuelOrder(object source, ElapsedEventArgs e)
         {
-            int lastItemID;
-            int nextItemID;
+            int lastItemID=0;
+            int nextItemID=0;
             int itemsCount = 0;
 
             var cdc = new CorporationDataContext();
@@ -113,8 +113,8 @@ namespace CORPORATION
 
         public void PlaceTransOrder(object source, ElapsedEventArgs e)
         {
-            int lastItemID;
-            int nextItemID;
+            int lastItemID=0;
+            int nextItemID=0;
             int itemsCount = 0;
 
             var cdc = new CorporationDataContext();
