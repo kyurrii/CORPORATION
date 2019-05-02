@@ -87,9 +87,9 @@ namespace CORPORATION
             Random random = new Random();
             MARKET mar = new MARKET();
 
-            int marPlantT = random.Next(8000,20000);
-            int marTransT = random.Next(8000, 15000);
-            int marFuelT = random.Next(8000, 15000);
+            int marPlantT = random.Next(12000,20000);
+            int marTransT = random.Next(12000, 15000);
+            int marFuelT = random.Next(10000, 15000);
 
 
             plantMarketTimer.Interval = marPlantT;
