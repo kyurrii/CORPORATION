@@ -89,10 +89,11 @@ namespace CORPORATION
             {
                 nextFreeTruck.Status = "onTrip";
                 cdc.SubmitChanges();
+                
 
                 nextTransOrder.Status = "inprocess";
                 cdc.SubmitChanges();
-                
+               
 
             }
             catch (Exception ex)
@@ -136,7 +137,8 @@ namespace CORPORATION
                         }
                                  );
 
-                        cdc.SubmitChanges();
+                         cdc.SubmitChanges();
+                       
 
                     }
 
@@ -169,17 +171,20 @@ namespace CORPORATION
                  var nextTruck = cdc.Trucks.Where(s => s.TruckID == truckID).FirstOrDefault();
 
                   int distance = (int)nextTransOrder.Distance;
-                  int dur = distance * 3;
+                  int dur = distance * 1;
                   Thread.Sleep(dur);
 
                 try
                  {
                    nextTransOrder.Status = "delivered";
+                   
                    cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
 
                    nextTruck.Status = "free";
                    cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
-                 }
+
+                   
+            }
             catch (ChangeConflictException e)
             {
                 foreach (ObjectChangeConflict occ in cdc.ChangeConflicts)
@@ -189,7 +194,8 @@ namespace CORPORATION
             }
             try
             {
-                cdc.SubmitChanges(ConflictMode.FailOnFirstConflict);
+              
+                 cdc.SubmitChanges(ConflictMode.FailOnFirstConflict);
             }
             catch (Exception ex)
             {
@@ -250,6 +256,8 @@ namespace CORPORATION
                 }
                          );
 
+               
+
                 cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
             }
             catch (ChangeConflictException e)
@@ -302,15 +310,16 @@ namespace CORPORATION
 
             if (cdc.Trucks.Count()== plantruckqty)
             {
-                //int inProcessTransOrdersQty = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
+                
 
                  inProcessTransOrdersQty = plantruckqty - FreeTrucksCount();
             }
             else
             {
                 inProcessTransOrdersQty = 0;
-            }
-           
+            }       
+
+            // inProcessTransOrdersQty = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
             return inProcessTransOrdersQty;
 
         }
@@ -323,5 +332,7 @@ namespace CORPORATION
 
 
         }
+
+        
     }
 }

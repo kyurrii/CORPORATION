@@ -11,17 +11,25 @@ using System.Data.Linq;
 
 namespace CORPORATION
 {
+
     class BANK
     {
-        public decimal balance = BalanceTuple().Item1;
+       
+
+        public decimal balance = BANK.BalanceTuple().Item1;
         public decimal PlantInput = BalanceTuple().Item2;
         public decimal FuelInput = BalanceTuple().Item3;
         public decimal TransInput = BalanceTuple().Item4;
 
+       private Mutex mutex = new Mutex();
+
+       
 
         public async void checkInvoices(object source, ElapsedEventArgs e)
         {
-            var cdc = new CorporationDataContext();
+          using (var cdc = new CorporationDataContext()) {
+
+
 
             try
             {
@@ -55,6 +63,8 @@ namespace CORPORATION
 
                     await Task.Run(() => createTransaction(invID, null, null, null));
 
+         
+
                     foreach (PlantInvoice inv in invToProcess)
                     {
                         inv.Status = "paid";
@@ -68,117 +78,129 @@ namespace CORPORATION
                // MessageBox.Show("Exception: " + ex.Message);
 
             }
+
+
+
+            };
         }
 
 
         public async void checkPayments(object source, ElapsedEventArgs e)
         {
-            var cdc = new CorporationDataContext();
-
-            try
+            using (var cdc = new CorporationDataContext())
             {
-                var PaymentsList = cdc.Payments.Join(cdc.ProductOrders,
-                                     pay => pay.MProdOrderID,
-                                     ord => ord.MProdOrderID,
-                                     (pay, ord) => new
-                                     {
-                                         CorpPaymID = pay.PaymentID,
-                                         PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
-                                         PaymentStatus = pay.Status,
-                                         Date = ord.OrderDate
-                                     });
 
-                var oldestPendPayment = PaymentsList.Where(s => s.PaymentStatus == "requested").OrderBy(s => s.Date).FirstOrDefault();
-               
-                if (oldestPendPayment != null)
+
+                try
                 {
-                    int payID = oldestPendPayment.CorpPaymID;
-                    var payToProcess = cdc.Payments.Where(s => s.PaymentID == payID);
+                    var PaymentsList = cdc.Payments.Join(cdc.ProductOrders,
+                                         pay => pay.MProdOrderID,
+                                         ord => ord.MProdOrderID,
+                                         (pay, ord) => new
+                                         {
+                                             CorpPaymID = pay.PaymentID,
+                                             PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
+                                             PaymentStatus = pay.Status,
+                                             Date = ord.OrderDate
+                                         });
 
-                    decimal payamt = Convert.ToDecimal(oldestPendPayment.PaymentAmount);
+                    var oldestPendPayment = PaymentsList.Where(s => s.PaymentStatus == "requested").OrderBy(s => s.Date).FirstOrDefault();
 
-                    decimal currBalance = balance;
-                    
-                    if(currBalance - payamt >= 0)
+                    if (oldestPendPayment != null)
                     {
+                        int payID = oldestPendPayment.CorpPaymID;
+                        var payToProcess = cdc.Payments.Where(s => s.PaymentID == payID);
 
-                        await Task.Run(() => createTransaction(null, payID, null, null));
+                        decimal payamt = Convert.ToDecimal(oldestPendPayment.PaymentAmount);
 
-                        foreach (Payment pay in payToProcess)
+                        decimal currBalance = balance;
+
+                        if (currBalance - payamt >= 0)
                         {
-                            pay.Status = "paid";
+
+                            await Task.Run(() => createTransaction(null, payID, null, null));
+
+                            foreach (Payment pay in payToProcess)
+                            {
+                                pay.Status = "paid";
+                            }
+                            cdc.SubmitChanges();
+
                         }
-                        cdc.SubmitChanges();
+
 
                     }
 
-                   
+
                 }
-            }
-            catch (Exception ex)
-            {
-              //  MessageBox.Show("Exception: " + ex.Message);
+                catch (Exception ex)
+                {
+                   // MessageBox.Show("Exception: " + ex.Message);
 
-            }
-
+                }
+            } 
         }
         
 
         public void createTransaction(int? pinvID,int? payID,int? transID,int? fuelinvID)
         {
-            var cdc = new CorporationDataContext();
-
-
-            int lastItemID=0;
-            int nextItemID=0;
-            int itemsCount = 0;
-
-            itemsCount = cdc.BankTransactions.Count();
-
-            if (itemsCount == 0)
+            using (var cdc = new CorporationDataContext())
             {
-                nextItemID = 440001;
-            }
-            else
-            {
-                lastItemID = cdc.BankTransactions.OrderByDescending(s => s.TransactionID).Select(s => s.TransactionID).First();
-                nextItemID = lastItemID + 1;
-            }
 
-            try
-            {
-               // var cdc = new CorporationDataContext();
-                cdc.BankTransactions.InsertOnSubmit(
+                mutex.WaitOne();
 
-               new BankTransaction
-               {
-                   TransactionID = nextItemID,
-                   PlantInvoiceID = pinvID,
-                   PaymentID = payID,
-                   TransInvoiceID = transID,
-                   TankFuelInvoiceID = fuelinvID,
-                   Status = "pending",
-                   Confirmed = "no",
-                   Date = DateTime.Now,
-                   FuelPaymentID=null,
-                   TransPaymentID=null
+                int lastItemID = 0;
+                int nextItemID = 0;
+                int itemsCount = 0;
 
-               }
-                   );
-                cdc.SubmitChanges();
+                itemsCount = cdc.BankTransactions.Count();
 
-            }
-            catch (Exception ex)
-            {
-               // MessageBox.Show("Exception: " + ex.Message);
+                if (itemsCount == 0)
+                {
+                    nextItemID = 440001;
+                }
+                else
+                {
+                    lastItemID = cdc.BankTransactions.OrderByDescending(s => s.TransactionID).Select(s => s.TransactionID).First();
+                    nextItemID = lastItemID + 1;
+                }
 
+                try
+                {
+
+                    cdc.BankTransactions.InsertOnSubmit(
+
+                   new BankTransaction
+                   {
+                       TransactionID = nextItemID,
+                       PlantInvoiceID = pinvID,
+                       PaymentID = payID,
+                       TransInvoiceID = transID,
+                       TankFuelInvoiceID = fuelinvID,
+                       Status = "pending",
+                       Confirmed = "no",
+                       Date = DateTime.Now,
+                       FuelPaymentID = null,
+                       TransPaymentID = null
+
+                   }
+                       );
+                    cdc.SubmitChanges();
+
+                    mutex.ReleaseMutex();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Exception: " + ex.Message);
+
+                }
             }
         }
 
        
 
 
-       public  static Tuple <decimal, decimal, decimal,decimal> BalanceTuple()
+       public static  Tuple <decimal, decimal, decimal,decimal> BalanceTuple()
         {
 
             decimal balance = 0;
@@ -194,79 +216,80 @@ namespace CORPORATION
             decimal InvoicedTotalValue = 0;
             decimal PaymentsTotalValue = 0;
 
-            var cdc = new CorporationDataContext();
-
-            try
+            using (var cdc = new CorporationDataContext())
             {
-                var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
-                                       inv => inv.MProdOrderID,
-                                       ord => ord.MProdOrderID,
-                                       (inv, ord) => new
+                try
+                {
+                    var PlantInvoicesList = cdc.PlantInvoices.Join(cdc.ProductOrders,
+                                           inv => inv.MProdOrderID,
+                                           ord => ord.MProdOrderID,
+                                           (inv, ord) => new
+                                           {
+                                               PlantInvID = inv.PlantInviceID,
+                                               InvoiceValue = ord.ProdOrderValue,
+                                               InvoiceStatus = inv.Status,
+                                               PlantInvDate = ord.OrderDate,
+                                               PlantInvPayTerm = ord.PaymentTerm
+                                           }).ToList();
+
+
+
+                    var PaymentsList = from pay in cdc.Payments
+                                       where pay.Status == "paid"
+                                       join ord in cdc.ProductOrders
+                                       on pay.MProdOrderID equals ord.MProdOrderID
+                                       select new
                                        {
-                                           PlantInvID = inv.PlantInviceID,
-                                           InvoiceValue = ord.ProdOrderValue,
-                                           InvoiceStatus = inv.Status,
-                                           PlantInvDate = ord.OrderDate,
-                                           PlantInvPayTerm = ord.PaymentTerm
-                                       }).ToList();
+                                           PaymID = pay.PaymentID,
+                                           PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
+                                           PaymentStatus = pay.Status
+                                       };
+
+                    if (PaymentsList != null)
+                    {
+                        PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
+                    }
+
+                    if (PlantInvoicesList != null)
+                    {
+                        PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
+                    }
 
 
 
-                var PaymentsList = from pay in cdc.Payments
-                                   where pay.Status == "paid"
-                                   join ord in cdc.ProductOrders
-                                   on pay.MProdOrderID equals ord.MProdOrderID
-                                   select new
-                                   {
-                                       PaymID = pay.PaymentID,
-                                       PaymentAmount = (ord.ProdOrderValue) * 7 / 10,
-                                       PaymentStatus = pay.Status
-                                   };
 
-                if (PaymentsList != null)
+                    FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
+
+                    FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
+
+                    TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s => s.Status == "delivered").Sum(s => s.OrderValue));
+
+                    TransPaymentsValue = TransSoldValue * 85 / 100;
+
+                    InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
+                    PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue + TransPaymentsValue;
+
+
+
+
+                    balance = InvoicedTotalValue - PaymentsTotalValue;
+                    if (balance != 0)
+                    {
+
+                        FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance * 100;
+                        PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance * 100;
+                        TransInput = (TransSoldValue - TransPaymentsValue) / balance * 100;
+
+                    }
+                }
+                catch (Exception ex)
                 {
-                    PlantPaymentsValue = Convert.ToDecimal(PaymentsList.Sum(s => s.PaymentAmount));
+                    // MessageBox.Show("Exception: " + ex.Message);
+
                 }
 
-                if (PlantInvoicesList != null)
-                {
-                    PlantInvoicedValue = Convert.ToDecimal(PlantInvoicesList.Sum(s => s.InvoiceValue));
-                }
-
-
-                 
-
-                 FuelSoldValue = Convert.ToDecimal(cdc.TankFuelOrders.Where(s => s.Status == "tanked").Sum(s => s.TankFuelOrderValue));
-
-                 FuelPurchasedValue = Convert.ToDecimal(cdc.TankFuelPayments.Sum(s => s.FuelPaymentValue));
-
-                 TransSoldValue = Convert.ToDecimal(cdc.TransOrders.Where(s => s.Status == "delivered").Sum(s => s.OrderValue));
-
-                 TransPaymentsValue = TransSoldValue * 85 / 100;
-
-                 InvoicedTotalValue = PlantInvoicedValue + FuelSoldValue + TransSoldValue;
-                 PaymentsTotalValue = PlantPaymentsValue + FuelPurchasedValue + TransPaymentsValue;
-           
-         
-           
-
-                   balance = InvoicedTotalValue - PaymentsTotalValue;
-                if (balance != 0)
-                {
-
-                    FuelInput = (FuelSoldValue - FuelPurchasedValue) / balance * 100;
-                    PlantInput = (PlantInvoicedValue - PlantPaymentsValue) / balance * 100;
-                    TransInput = (TransSoldValue - TransPaymentsValue) / balance * 100;
-
-                }
+                return Tuple.Create(balance, PlantInput, FuelInput, TransInput);
             }
-            catch (Exception ex)
-            {
-               // MessageBox.Show("Exception: " + ex.Message);
-
-            }
-
-            return Tuple.Create(balance, PlantInput, FuelInput, TransInput);
         }
 
     }

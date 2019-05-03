@@ -130,7 +130,7 @@ namespace CORPORATION
             foreach (TankFuelOrder ord in waitingTankOrd)
             {
                 
-                int tankTime =( ord.TankFuelOrderAmount ).GetValueOrDefault()*200;
+                int tankTime =( ord.TankFuelOrderAmount ).GetValueOrDefault()*50;
                 Thread.Sleep(tankTime);
 
                 ord.Status = "tanked";

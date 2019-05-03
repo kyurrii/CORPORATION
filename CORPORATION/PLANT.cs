@@ -18,6 +18,7 @@ namespace CORPORATION
 
 
         private int prodLinesnomber = 4;
+        
 
         public async void CheckOrdersList(object source, ElapsedEventArgs e)
         {
@@ -206,7 +207,7 @@ namespace CORPORATION
 
         public void IssuePayment(int ordId)
         {
-            var cdc = new CorporationDataContext();
+           var cdc = new CorporationDataContext();
             BANK bank = new BANK();
 
            decimal balance = bank.balance;

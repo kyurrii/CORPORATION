@@ -32,7 +32,7 @@ namespace CORPORATION
         System.Timers.Timer fuelMarketTimer = new System.Timers.Timer();
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnActStart_Click(object sender, EventArgs e)
         {
 
 
@@ -87,7 +87,7 @@ namespace CORPORATION
             Random random = new Random();
             MARKET mar = new MARKET();
 
-            int marPlantT = random.Next(12000,20000);
+            int marPlantT = random.Next(12000,12000);
             int marTransT = random.Next(12000, 15000);
             int marFuelT = random.Next(10000, 15000);
 
@@ -172,7 +172,7 @@ namespace CORPORATION
 
         
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private void btnActStop_Click_1(object sender, EventArgs e)
         {
             marketTimer.Stop();
             plantTimer.Stop();
