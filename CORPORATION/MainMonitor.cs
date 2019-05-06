@@ -31,25 +31,25 @@ namespace CORPORATION
         System.Timers.Timer transMarketTimer = new System.Timers.Timer();
         System.Timers.Timer fuelMarketTimer = new System.Timers.Timer();
 
+         Random random = new Random();
+
+        MARKET mar = new MARKET();
+        PLANT plant = new PLANT();
+        BANK bank = new BANK();
+        FUELSTATION fuelstation = new FUELSTATION();
+        CARRIER carrier = new CARRIER();
+
+
 
         private void btnActStart_Click(object sender, EventArgs e)
         {
 
 
-            MARKET mar = new MARKET();
-            PLANT plant = new PLANT();
-            BANK bank = new BANK();
-            FUELSTATION fuelstation = new FUELSTATION();
-            CARRIER carrier = new CARRIER();
-
-
-            
-
             int marPeriod = 30000;
             int plantPeriod = 3000;
-            int monitorPeriod = 3000;
+            int monitorPeriod = 2000;
             int fuelstPeriod = 3000;
-            int carrierPeriod = 3000;
+            int carrierPeriod = 2000;
 
 
             marketTimer.Interval = marPeriod;
@@ -59,7 +59,13 @@ namespace CORPORATION
             carrierTimer.Interval = carrierPeriod;
 
              marketTimer.Elapsed += new ElapsedEventHandler(MarketActivate);
-      
+            plantMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
+            transMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
+            fuelMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
+
+            //  marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
+            //  marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
+            //  marketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
 
             mainMonitorTimer.Elapsed += new ElapsedEventHandler(MainMonitorRefresh);
             mainMonitorTimer.Elapsed += new ElapsedEventHandler(bank.checkInvoices);
@@ -81,24 +87,25 @@ namespace CORPORATION
             carrierTimer.Start();
 
         }
-
+        
         private void MarketActivate(object source, ElapsedEventArgs e)
         {
-            Random random = new Random();
-            MARKET mar = new MARKET();
+            plantMarketTimer.Stop();
+            transMarketTimer.Stop();
+            fuelMarketTimer.Stop();
 
-            int marPlantT = random.Next(12000,12000);
-            int marTransT = random.Next(12000, 15000);
-            int marFuelT = random.Next(10000, 15000);
+            int marPlantT = random.Next(120000,120000);
+            int marTransT = random.Next(4000, 8000);
+            int marFuelT = random.Next(100000, 150000);
 
 
             plantMarketTimer.Interval = marPlantT;
             transMarketTimer.Interval = marTransT;
             fuelMarketTimer.Interval = marFuelT;
 
-            plantMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
-            transMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
-            fuelMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
+          //  plantMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceProdOrder);
+          //  transMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTransOrder);
+          //  fuelMarketTimer.Elapsed += new ElapsedEventHandler(mar.PlaceTankFuelOrder);
 
 
             plantMarketTimer.Start();
@@ -106,7 +113,7 @@ namespace CORPORATION
             fuelMarketTimer.Start();
 
 
-        }
+        }    
 
         public void MainMonitorRefresh(object source, ElapsedEventArgs e)
         {

@@ -23,7 +23,7 @@ namespace CORPORATION
  
                 var oldestOpenTransOrd = cdc.TransOrders.Where(s => s.Status == "open").OrderBy(s => s.Date).FirstOrDefault();
                 var nextFreeTruck = cdc.Trucks.Where(s => s.Status == "free").OrderBy(s => s.TruckID).FirstOrDefault();
-                var oldestInprocessTransOrd = cdc.TransOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
+                var oldestInprocessTransOrd = cdc.TransOrders.Where(s => s.Status == "inprocess").OrderByDescending(s => s.Date).FirstOrDefault();
                 int inprocTransOrdNomber = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
 
 
@@ -39,6 +39,7 @@ namespace CORPORATION
                 {
 
                     await Task.Run(() => StartNewTrip(trOrdID, truckID));
+                    Thread.Sleep(1500);
                     await Task.Run(() => Deliver(trOrdID, truckID));
                 }
                 catch (Exception ex)
@@ -57,8 +58,10 @@ namespace CORPORATION
                     int onTripTruckID = (int)cdc.TruckTrips.Where(s => s.TransOrderID == ordid).Select(m => m.TruckID).FirstOrDefault();
                     var onTripTruck = cdc.Trucks.Where(s => s.TruckID == onTripTruckID && s.Status == "onTrip").FirstOrDefault();
 
-                    await Task.Run(() => Deliver(ordid, onTripTruckID));
-
+                    if (onTripTruck != null)
+                    {
+                        await Task.Run(() => Deliver(ordid, onTripTruck.TruckID));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -66,7 +69,7 @@ namespace CORPORATION
 
                 }
 
-            }
+            }          
 
         }
 
@@ -178,21 +181,21 @@ namespace CORPORATION
                  {
                    nextTransOrder.Status = "delivered";
                    
-                   cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
+                   cdc.SubmitChanges();
 
                    nextTruck.Status = "free";
-                   cdc.SubmitChanges(ConflictMode.ContinueOnConflict);
+                   cdc.SubmitChanges();
 
                    
             }
             catch (ChangeConflictException e)
             {
-                foreach (ObjectChangeConflict occ in cdc.ChangeConflicts)
+               /* foreach (ObjectChangeConflict occ in cdc.ChangeConflicts)
                 {
                     occ.Resolve(RefreshMode.KeepChanges);
-                }
+                }  */
             }
-            try
+         /*   try
             {
               
                  cdc.SubmitChanges(ConflictMode.FailOnFirstConflict);
@@ -200,7 +203,7 @@ namespace CORPORATION
             catch (Exception ex)
             {
                 MessageBox.Show("Exception: " + ex.Message);
-            }
+            }*/
 
 
         }
@@ -307,7 +310,7 @@ namespace CORPORATION
         {
             var cdc = new CorporationDataContext();
             int inProcessTransOrdersQty=0;
-
+        /*
             if (cdc.Trucks.Count()== plantruckqty)
             {
                 
@@ -317,9 +320,9 @@ namespace CORPORATION
             else
             {
                 inProcessTransOrdersQty = 0;
-            }       
+            }                     */
 
-            // inProcessTransOrdersQty = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
+            inProcessTransOrdersQty = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
             return inProcessTransOrdersQty;
 
         }
