@@ -133,9 +133,7 @@ namespace CORPORATION
 
 
             Action textDisplayAct = () => {
-              //  dataGridView1.DataSource = cdc.TransOrders;
-                 
-              //  dataGridView4.DataSource = cdc.Trucks;
+          
 
                 
 
