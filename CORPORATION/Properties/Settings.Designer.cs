@@ -35,3 +35,11 @@ namespace CORPORATION.Properties {
         }
     }
 }
+
+
+//Server=(LocalDB)\MSSQLLocalDB; Integrated Security=true ;AttachDbFileName=C:\Users\hp\source\repos\CORPORATION\DataBase\CorporationTest.mdf
+
+
+    /*
+     "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Corporation;Integrated Securit" +
+           "y=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False"   */
