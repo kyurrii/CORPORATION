@@ -8,6 +8,8 @@ using System.Timers;
 using System.Data.Linq;
 using System.Windows.Forms;
 
+using System.Windows.Forms;
+
 
 namespace CORPORATION
 {
@@ -15,97 +17,105 @@ namespace CORPORATION
     {
         
        private  int  plantruckqty = 10;
-       
+       private Mutex mutex = new Mutex();
 
         public async void NextTransOrder(object source, ElapsedEventArgs e)
         {
-                var cdc = new CorporationDataContext();
- 
-                var oldestOpenTransOrd = cdc.TransOrders.Where(s => s.Status == "open").OrderBy(s => s.Date).FirstOrDefault();
-                var nextFreeTruck = cdc.Trucks.Where(s => s.Status == "free").OrderBy(s => s.TruckID).FirstOrDefault();
-                var oldestInprocessTransOrd = cdc.TransOrders.Where(s => s.Status == "inprocess").OrderByDescending(s => s.Date).FirstOrDefault();
+            using (CorporationDataContext cdc = new CorporationDataContext())
+            {
+
+
+
                 int inprocTransOrdNomber = cdc.TransOrders.Where(s => s.Status == "inprocess").Count();
 
+               
 
-            
+                var oldestOpenTransOrd = cdc.TransOrders.Where(s => s.Status == "open").OrderBy(s => s.Date).FirstOrDefault();
+                var nextFreeTruck = cdc.Trucks.Where(s => s.Status == "free").OrderBy(s => s.TruckID).FirstOrDefault();
+                var openTripTruckCheck=cdc.TruckTrips.Where(t=>t.TruckID==nextFreeTruck.TruckID && t.Status=="open");
 
-
-            if ( oldestOpenTransOrd != null && nextFreeTruck != null&& inprocTransOrdNomber < plantruckqty)
-            {
-                int trOrdID = oldestOpenTransOrd.TransOrderID;
-                int truckID = nextFreeTruck.TruckID;
-
-                try
+                if (oldestOpenTransOrd != null && nextFreeTruck != null && inprocTransOrdNomber < plantruckqty)   //&& openTripTruckCheck==null
                 {
+                    int trOrdID = oldestOpenTransOrd.TransOrderID;
+                    int truckID = nextFreeTruck.TruckID;
 
-                    await Task.Run(() => StartNewTrip(trOrdID, truckID));
-                    Thread.Sleep(1500);
-                    await Task.Run(() => Deliver(trOrdID, truckID));
-                }
-                catch (Exception ex)
-                {
-                  //  MessageBox.Show("Exception: " + ex.Message);
-
-                }
-            }
-
-
-            if (oldestInprocessTransOrd != null)
-            {
-                try
-                {
-                    int ordid = oldestInprocessTransOrd.TransOrderID;
-                    int onTripTruckID = (int)cdc.TruckTrips.Where(s => s.TransOrderID == ordid).Select(m => m.TruckID).FirstOrDefault();
-                    var onTripTruck = cdc.Trucks.Where(s => s.TruckID == onTripTruckID && s.Status == "onTrip").FirstOrDefault();
-
-                    if (onTripTruck != null)
+                    try
                     {
-                        await Task.Run(() => Deliver(ordid, onTripTruck.TruckID));
+
+                        await Task.Run(() => StartNewTrip(trOrdID, truckID));
+                      //  Thread.Sleep(1500);
+                      //  await Task.Run(() => Deliver(trOrdID, truckID));
+                    }
+                    catch (Exception ex)
+                    {
+                        //  MessageBox.Show("Exception: " + ex.Message);
+
                     }
                 }
-                catch (Exception ex)
+            
+                var oldestInprocessTransOrd = cdc.TransOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
+
+                if (oldestInprocessTransOrd != null )
                 {
-                    //  MessageBox.Show("Exception: " + ex.Message);
+                    try
+                    {
+                        int ordid = oldestInprocessTransOrd.TransOrderID;
+                        int onTripTruckID = (int)cdc.TruckTrips.Where(s => s.TransOrderID == ordid).Select(m => m.TruckID).FirstOrDefault();
+                        var onTripTruck = cdc.Trucks.Where(s => s.TruckID == onTripTruckID ).FirstOrDefault();   //&& s.Status == "onTrip"
 
-                }
+                        if (onTripTruck != null)
+                        {
+                            await Task.Run(() => Deliver(ordid, onTripTruck.TruckID));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //  MessageBox.Show("Exception: " + ex.Message);
 
-            }          
+                    }
 
+                }     
+
+            }
         }
 
 
         private void StartNewTrip(int trordID, int truckID)
         {
-            int lastItemID=0;
-            int nextItemID=0;
+            int lastItemID = 0;
+            int nextItemID = 0;
             int itemsCount = 0;
 
-            var cdc = new CorporationDataContext();
-
-            var nextTransOrder = cdc.TransOrders.Where(s => s.TransOrderID == trordID).FirstOrDefault();
-          
-            var nextFreeTruck = cdc.Trucks.Where(s => s.TruckID == truckID).FirstOrDefault();
-
-            Thread.Sleep(1000);
-
-            try
+            using( CorporationDataContext cdc = new CorporationDataContext())
             {
-                nextFreeTruck.Status = "onTrip";
-                cdc.SubmitChanges();
-                
 
-                nextTransOrder.Status = "inprocess";
-                cdc.SubmitChanges();
-               
+                TransOrder nextTransOrder = cdc.TransOrders.Where(s => s.TransOrderID == trordID).FirstOrDefault();
 
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show("Exception: " + ex.Message);
+                Truck nextFreeTruck = cdc.Trucks.Where(s => s.TruckID == truckID).FirstOrDefault();
 
-            }
-            try
-            {
+                Thread.Sleep(1000);
+
+                try
+                {
+
+                    nextFreeTruck.Status = "onTrip";
+                     cdc.SubmitChanges();
+
+                    nextTransOrder.Attribute = "onWay";
+                    cdc.SubmitChanges();
+
+                    nextTransOrder.Status = "inprocess";
+                    cdc.SubmitChanges();
+
+
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show("Exception: " + ex.Message);
+
+                }
+                try
+                {
 
                     itemsCount = cdc.TruckTrips.Count();
 
@@ -121,91 +131,124 @@ namespace CORPORATION
 
                     }
 
-                Boolean containsTransOrder = cdc.TruckTrips.Select(s => s.TransOrderID).Contains(trordID);
+                    Boolean containsTransOrder = cdc.TruckTrips.Select(s => s.TransOrderID).Contains(trordID);
 
-                if (containsTransOrder == false)
-                {
-
-                    try
+                    if (containsTransOrder == false)
                     {
-                        cdc.TruckTrips.InsertOnSubmit(
 
-                        new TruckTrip
+                        try
                         {
-                            TruckTripID = nextItemID,
-                            TransOrderID = trordID,
-                            TruckID = truckID,
-                            Date = DateTime.Now
+                            cdc.TruckTrips.InsertOnSubmit(
+
+                            new TruckTrip
+                            {
+                                TruckTripID = nextItemID,
+                                TransOrderID = trordID,
+                                TruckID = truckID,
+                                Date = DateTime.Now,
+                                Status = "open"
+
+                            }
+                                     );
+
+                            cdc.SubmitChanges();
+
 
                         }
-                                 );
 
-                         cdc.SubmitChanges();
-                       
+                        catch (ChangeConflictException e)
+                        {
 
-                    }
 
-                    catch (ChangeConflictException e)
-                    {
+                        }
 
 
                     }
 
 
                 }
+                catch
+                {
+
+                }
+
+
 
 
             }
-            catch
-            {
-
-            }
-
-           
-            
-
         }
 
-        private  void Deliver(int trordID, int truckID)
+        private void Deliver(int trordID, int truckID)
         {
-                  var cdc = new CorporationDataContext();
+            using (var cdc = new CorporationDataContext())
+            {
 
-                 var nextTransOrder = cdc.TransOrders.Where(s => s.TransOrderID == trordID).FirstOrDefault();
-                 var nextTruck = cdc.Trucks.Where(s => s.TruckID == truckID).FirstOrDefault();
+              //  mutex.WaitOne();
 
-                  int distance = (int)nextTransOrder.Distance;
-                  int dur = distance * 1;
-                  Thread.Sleep(dur);
+                TransOrder nextTransOrder = cdc.TransOrders.Where(s => s.TransOrderID == trordID).FirstOrDefault();
+                Truck nextTruck = cdc.Trucks.Where(s => s.TruckID == truckID).FirstOrDefault();
+                TruckTrip currTrip = cdc.TruckTrips.Where(s => s.TransOrderID == trordID).Single();
+
+                int distance = (int)nextTransOrder.Distance;
+                int dur = distance * 1;
+                Thread.Sleep(dur);
 
                 try
-                 {
-                   nextTransOrder.Status = "delivered";
-                   
-                   cdc.SubmitChanges();
-
-                   nextTruck.Status = "free";
-                   cdc.SubmitChanges();
-
-                   
-            }
-            catch (ChangeConflictException e)
-            {
-               /* foreach (ObjectChangeConflict occ in cdc.ChangeConflicts)
                 {
-                    occ.Resolve(RefreshMode.KeepChanges);
-                }  */
-            }
-         /*   try
-            {
-              
-                 cdc.SubmitChanges(ConflictMode.FailOnFirstConflict);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
-            }*/
+                    nextTransOrder.Status = "complete";
+
+                     cdc.SubmitChanges();
+
+                    currTrip.Status = "complete";
+
+                    cdc.SubmitChanges();
+
+                    nextTruck.Status = "free";
+
+                    cdc.SubmitChanges();
 
 
+                    if(nextTransOrder.Status!= "complete")
+                    {
+                        MessageBox.Show( nextTransOrder.Status, "nextTransOrder.Status= ");
+                        
+                    }
+
+                    if (currTrip.Status != "complete")
+                    {
+                        MessageBox.Show( currTrip.Status, "currTrip.Status= ");
+
+                    }
+
+                    if (nextTruck.Status!= "free")
+                    {
+                        MessageBox.Show( nextTruck.Status, "nextTruck.Status= ");
+
+                    }
+
+
+
+
+                }
+                catch (ChangeConflictException e)
+                {
+                    /* foreach (ObjectChangeConflict occ in cdc.ChangeConflicts)
+                     {
+                         occ.Resolve(RefreshMode.KeepChanges);
+                     }  */
+                }
+                /*   try
+                   {
+
+                        cdc.SubmitChanges(ConflictMode.FailOnFirstConflict);
+                   }
+                   catch (Exception ex)
+                   {
+                       MessageBox.Show("Exception: " + ex.Message);
+                   }*/
+
+               // mutex.ReleaseMutex();
+            }
         }
              
 
@@ -286,9 +329,11 @@ namespace CORPORATION
 
         public int TrucksCount()
         {
-            var cdc = new CorporationDataContext();
-            int nomberTrucks = cdc.Trucks.Count();
-            return nomberTrucks;
+            using (CorporationDataContext cdc = new CorporationDataContext())
+            {
+                int nomberTrucks = cdc.Trucks.Count();
+                return nomberTrucks;
+            }
         }
 
         public int FreeTrucksCount()
@@ -336,6 +381,10 @@ namespace CORPORATION
 
         }
 
-        
+
+        	
+
+
+
     }
 }

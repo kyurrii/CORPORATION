@@ -31,7 +31,7 @@ namespace CORPORATION
             var momentalTankFuelAmount = cdc.TankFuelOrders.Where(s => s.Status == "inprocess").Sum(s=>s.TankFuelOrderAmount);
 
             var  waitingTankOrd = cdc.TankFuelOrders.Where(s => s.Status == "waiting").OrderBy(s => s.Date).FirstOrDefault();
-            var inprocTankOrd= cdc.TankFuelOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
+         
 
             if (waitingTankOrd != null)
             {
@@ -79,6 +79,7 @@ namespace CORPORATION
                    }
                 }
 
+            var inprocTankOrd = cdc.TankFuelOrders.Where(s => s.Status == "inprocess").OrderBy(s => s.Date).FirstOrDefault();
             if (inprocTankOrd != null && FuelReserve() > 0)
             {
                 try
@@ -130,7 +131,7 @@ namespace CORPORATION
             foreach (TankFuelOrder ord in waitingTankOrd)
             {
                 
-                int tankTime =( ord.TankFuelOrderAmount ).GetValueOrDefault()*50;
+                int tankTime =( ord.TankFuelOrderAmount ).GetValueOrDefault()*100;
                 Thread.Sleep(tankTime);
 
                 ord.Status = "tanked";

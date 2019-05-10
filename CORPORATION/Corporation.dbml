@@ -69,6 +69,7 @@
       <Column Name="Status" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="OrderValue" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Attribute" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
       <Association Name="TransOrder_TruckTrip" Member="TruckTrips" ThisKey="TransOrderID" OtherKey="TransOrderID" Type="TruckTrip" />
     </Type>
   </Table>
@@ -78,6 +79,7 @@
       <Column Name="TransOrderID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="TruckID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="Truck_TruckTrip" Member="Truck" ThisKey="TruckID" OtherKey="TruckID" Type="Truck" IsForeignKey="true" />
       <Association Name="TransOrder_TruckTrip" Member="TransOrder" ThisKey="TransOrderID" OtherKey="TransOrderID" Type="TransOrder" IsForeignKey="true" />
     </Type>

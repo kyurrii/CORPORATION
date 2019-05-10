@@ -148,7 +148,8 @@ namespace CORPORATION
                     OrderValue = orderValue,
                     Status = "open",
                     Date = DateTime.Now,
-                    Distance = distance
+                    Distance = distance,
+                    Attribute = null
                 }
                          );
                 cdc.SubmitChanges();

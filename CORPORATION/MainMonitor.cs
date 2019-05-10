@@ -47,9 +47,9 @@ namespace CORPORATION
 
             int marPeriod = 30000;
             int plantPeriod = 3000;
-            int monitorPeriod = 2000;
+            int monitorPeriod = 3000;
             int fuelstPeriod = 3000;
-            int carrierPeriod = 2000;
+            int carrierPeriod = 3000;
 
 
             marketTimer.Interval = marPeriod;
@@ -94,9 +94,9 @@ namespace CORPORATION
             transMarketTimer.Stop();
             fuelMarketTimer.Stop();
 
-            int marPlantT = random.Next(120000,120000);
-            int marTransT = random.Next(4000, 8000);
-            int marFuelT = random.Next(100000, 150000);
+            int marPlantT = random.Next(7000,8000);
+            int marTransT = random.Next(10000, 13000);
+            int marFuelT = random.Next(5000, 7000);
 
 
             plantMarketTimer.Interval = marPlantT;
@@ -188,8 +188,33 @@ namespace CORPORATION
             plantMarketTimer.Stop();
             transMarketTimer.Stop();
             fuelMarketTimer.Stop();
+
+            CorporationDataContext cdc = new CorporationDataContext();
+          /*
+            var Items = cdc.BankTransactions;
+            foreach (var item in Items)
+            {
+                cdc.BankTransactions.DeleteOnSubmit(item);
+                cdc.SubmitChanges();
+            }   */
+
+          /*  var Itemss = cdc.ProductOrders;
+            foreach (var item in Itemss)
+            {
+                cdc.ProductOrders.DeleteOnSubmit(item);
+                cdc.SubmitChanges();
+            }  */
+
+         /*   var Itemsss = cdc.TankFuelOrders;
+            foreach (var item in Itemsss)
+            {
+                cdc.TankFuelOrders.DeleteOnSubmit(item);
+                cdc.SubmitChanges();
+            }
+            */
+
         }
 
-       
+
     }
 }

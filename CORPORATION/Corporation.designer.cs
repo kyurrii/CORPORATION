@@ -1423,6 +1423,8 @@ namespace CORPORATION
 		
 		private System.Nullable<decimal> _OrderValue;
 		
+		private string _Attribute;
+		
 		private EntitySet<TruckTrip> _TruckTrips;
 		
     #region Extensibility Method Definitions
@@ -1439,6 +1441,8 @@ namespace CORPORATION
     partial void OnDateChanged();
     partial void OnOrderValueChanging(System.Nullable<decimal> value);
     partial void OnOrderValueChanged();
+    partial void OnAttributeChanging(string value);
+    partial void OnAttributeChanged();
     #endregion
 		
 		public TransOrder()
@@ -1547,6 +1551,26 @@ namespace CORPORATION
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Attribute", DbType="NChar(10)")]
+		public string Attribute
+		{
+			get
+			{
+				return this._Attribute;
+			}
+			set
+			{
+				if ((this._Attribute != value))
+				{
+					this.OnAttributeChanging(value);
+					this.SendPropertyChanging();
+					this._Attribute = value;
+					this.SendPropertyChanged("Attribute");
+					this.OnAttributeChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TransOrder_TruckTrip", Storage="_TruckTrips", ThisKey="TransOrderID", OtherKey="TransOrderID")]
 		public EntitySet<TruckTrip> TruckTrips
 		{
@@ -1607,6 +1631,8 @@ namespace CORPORATION
 		
 		private System.Nullable<System.DateTime> _Date;
 		
+		private string _Status;
+		
 		private EntityRef<Truck> _Truck;
 		
 		private EntityRef<TransOrder> _TransOrder;
@@ -1623,6 +1649,8 @@ namespace CORPORATION
     partial void OnTruckIDChanged();
     partial void OnDateChanging(System.Nullable<System.DateTime> value);
     partial void OnDateChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
     #endregion
 		
 		public TruckTrip()
@@ -1716,6 +1744,26 @@ namespace CORPORATION
 					this._Date = value;
 					this.SendPropertyChanged("Date");
 					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="VarChar(50)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
 				}
 			}
 		}
